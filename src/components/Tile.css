@@ -3,6 +3,7 @@
     height: 1.3em;
     color: black;
     display: flex;
+    align-items: flex-end;
     justify-content: center;
 
 
@@ -28,6 +29,4 @@
 
 .Points {
     font-size: small;
-    top: 57%;
-    position: relative;
 }

@@ -35,7 +35,7 @@ const reducer = (state: Set<String>, action: Action) => {
       border: '2px solid #000',
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
-      left: '35%',
+      left: '30%',
       top: '3em'
     },
   }));
