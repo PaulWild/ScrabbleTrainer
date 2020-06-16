@@ -25,7 +25,7 @@ export const DictionaryProvider: FunctionComponent = ({ children }) => {
       const result = await fetch("/dictionaries/sowpods.txt")
 
       if (result.ok) {
-        const words = (await result.text()).split('\r\n').map(x => x.toUpperCase())
+        const words = (await result.text()).split('/\r?\n/').map(x => x.toUpperCase())
 
         setState({
           status: 'LOADED',

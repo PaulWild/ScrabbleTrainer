@@ -8,6 +8,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { useDictionary, waitForDictionary } from '../dictionaries/dictionaryProvider';
+import { allLetters } from '../App';
 
 
 interface WordBoardProps extends RouteComponentProps<IMatchParams> {   
@@ -96,32 +97,9 @@ const WordBoard = (props: WordBoardProps) => {
     <div className="Game">
       {!state.showResults &&
           <div className="Board">
-                  <Word letters={[firstLetter, "A"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "B"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "C"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "D"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "E"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "F"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "G"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "H"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "I"]} selectedCallback={ selectedWordsCallBack }></Word>  
-                  <Word letters={[firstLetter, "J"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "K"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "L"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "M"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "N"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "O"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "P"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "Q"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "R"]} selectedCallback={ selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "S"]} selectedCallback= { selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "T"]} selectedCallback= { selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "U"]} selectedCallback= { selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "V"]} selectedCallback= { selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "W"]} selectedCallback= { selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "X"]} selectedCallback= { selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "Y"]} selectedCallback= { selectedWordsCallBack }></Word>
-                  <Word letters={[firstLetter, "Z"]} selectedCallback= { selectedWordsCallBack }></Word>
+            {allLetters.map((l, idx) => 
+              <Word key={idx} letters={[firstLetter, l]} selectedCallback={ selectedWordsCallBack }></Word>
+            )}      
           </div>
         }
         {!state.showResults 

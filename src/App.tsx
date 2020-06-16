@@ -11,7 +11,7 @@ import Tile, { ScrabbleLetter } from './components/Tile';
 import Header from './components/Header';
 import { DictionaryProvider } from './dictionaries/dictionaryProvider';
 
-const allLetters: ScrabbleLetter[] = [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+export const allLetters: ScrabbleLetter[] = [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
 const Main = () => {
   return (
