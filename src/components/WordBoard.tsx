@@ -1,7 +1,7 @@
 import { ScrabbleLetter } from './Tile';
-import React, { memo, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import Word from './Word';
-import { Button, makeStyles, Collapse, Fade } from '@material-ui/core';
+import { Button, makeStyles, Fade } from '@material-ui/core';
 import './WordBoard.css';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';

@@ -1,5 +1,5 @@
 import Tile, { ScrabbleLetter } from './Tile';
-import React, { memo, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Word.css';
 
 interface WordProps {
@@ -13,7 +13,7 @@ const Word = ({letters, selectedCallback}: WordProps) => {
 
     useEffect(() => {
         selectedCallback(selected, letters.join(''))
-    }, [selected])
+    }, [])
 
     return (
     <div className="Word" onClick={ () => setSelected(!selected) }>
@@ -23,4 +23,4 @@ const Word = ({letters, selectedCallback}: WordProps) => {
     </div>)
 }
 
-export default memo(Word)
+export default Word
