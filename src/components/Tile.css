@@ -1,0 +1,27 @@
+.Tile {
+    width: 1.3em;
+    height: 1.3em;
+    color: black;
+    display: flex;
+    justify-content: center;
+
+
+    flex-direction: row;
+    margin: .07em;
+    border-color: black;
+    border-style: solid;
+    font-size: xx-large;
+    border-width: 0.01em;
+    border-radius: 0.1em;
+    box-shadow: 0.05em 0.05em 0.05em gray;
+}
+
+.Selected {
+    font-weight: bolder;
+    background-color: lightgreen;
+}
+
+.UnSelected {
+    font-weight: bold;
+    background-color: rgb(224, 211, 178);
+}

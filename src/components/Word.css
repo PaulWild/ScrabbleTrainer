@@ -1,0 +1,13 @@
+.Word {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    cursor: pointer; 
+    width: min-content;
+    margin-left: 0.7em;
+    margin-right: 0.7em;
+}
+
+.Warn {
+    color: red;
+}

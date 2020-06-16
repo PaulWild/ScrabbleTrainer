@@ -1,0 +1,28 @@
+.Game {
+    width: 100%;
+}
+
+.Board {
+    flex-direction: row;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: left;
+}
+
+.BoardRow {
+    flex-direction: column;
+    display: flex;
+    width: 6em;
+}
+
+.Control {
+    float: right;
+}
+
+button {
+    margin: 0.3em !important;
+}
+
+.Warn {
+    color: red;
+}
