@@ -73,10 +73,10 @@ const WordBoard = ({firstLetter, validWords}: WordBoardProps) => {
 
         return (<div className={classes.paper}>
           <p>
-            <b>{correct}</b> out of <b>{[...validWords].length}</b> valid word{[...validWords].length == 1 ? "" :"s"}
+            <b>{correct}</b> out of <b>{[...validWords].length}</b> valid word{[...validWords].length === 1 ? "" :"s"}
           </p>
           <p>
-            <b className={incorrect > 0 ? "Warn": ""}>{incorrect}</b> incorrect word{incorrect == 1 ? "" :"s"}
+            <b className={incorrect > 0 ? "Warn": ""}>{incorrect}</b> incorrect word{incorrect === 1 ? "" :"s"}
           </p>
         </div>
         )};
