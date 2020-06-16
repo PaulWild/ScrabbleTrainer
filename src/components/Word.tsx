@@ -1,5 +1,5 @@
 import Tile, { ScrabbleLetter } from './Tile';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Word.css';
 
 interface WordProps {
@@ -11,12 +11,13 @@ const Word = ({letters, selectedCallback}: WordProps) => {
 
     const [ selected, setSelected ] = useState(false);
 
-    useEffect(() => {
-        selectedCallback(selected, letters.join(''))
-    })
+    const update = (selected: boolean) => {
+        selectedCallback(selected, letters.join(''));
+        setSelected(selected);
+    }
 
     return (
-    <div className="Word" onClick={ () => setSelected(!selected) }>
+    <div className="Word" onClick={ () => update(!selected) }>
         {letters.map((l, idx) => 
             <Tile key={idx} letter={l} selected={selected}></Tile>
         )}
