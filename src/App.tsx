@@ -45,92 +45,94 @@ const Main = () => {
 function App() {
   return (
     <div className="App">
-    <Router>
-      <Header />
-        <Switch>
-        <Route path="/a">
-          <WordBoard firstLetter="A" validWords={new Set(["AA", "AB", "AD", "AE", "AG", "AH", "AI", "AL", "AM", "AN", "AR", "AS", "AT", "AW", "AX", "AY" ])}></WordBoard>
-        </Route>
-        <Route path="/b">
-          <WordBoard firstLetter="B" validWords={new Set(["BA", "BE", "BI", "BO", "BY" ])}></WordBoard>
-        </Route>
-        <Route path="/c">
-          <WordBoard firstLetter="C" validWords={new Set(["CH" ])}></WordBoard>
-        </Route>
-        <Route path="/d">
-          <WordBoard firstLetter="D" validWords={new Set(["DA", "DE", "DI", "DO" ])}></WordBoard>
-        </Route>
-        <Route path="/e">
-          <WordBoard firstLetter="E" validWords={new Set(["EA", "ED", "EE", "EF", "EH", "EL", "EM", "EN", "ER", "ES", "ET", "EX" ])}></WordBoard>
-        </Route>
-        <Route path="/f">
-          <WordBoard firstLetter="F" validWords={new Set(["FA", "FE", "FY" ])}></WordBoard>
-        </Route>
-        <Route path="/g">
-          <WordBoard firstLetter="G" validWords={new Set(["GI", "GO", "GU" ])}></WordBoard>
-        </Route>
-        <Route path="/h">
-          <WordBoard firstLetter="H" validWords={new Set(["HA", "HE", "HI", "HM", "HO" ])}></WordBoard>
-        </Route>
-        <Route path="/i">
-          <WordBoard firstLetter="I" validWords={new Set(["ID", "IF", "IN", "IO", "IS", "IT" ])}></WordBoard>
-        </Route>
-        <Route path="/j">
-          <WordBoard firstLetter="J" validWords={new Set(["JA", "JO" ])}></WordBoard>
-        </Route>
-        <Route path="/k">
-          <WordBoard firstLetter="K" validWords={new Set(["KA", "KI", "KO", "KY" ])}></WordBoard>
-        </Route>
-        <Route path="/l">
-          <WordBoard firstLetter="L" validWords={new Set(["LA", "LI", "LO" ])}></WordBoard>
-        </Route>
-        <Route path="/m">
-          <WordBoard firstLetter="M" validWords={new Set(["MA", "ME", "MI", "MO", "MU", "MY" ])}></WordBoard>
-        </Route>
-        <Route path="/n">
-          <WordBoard firstLetter="N" validWords={new Set(["NA", "NE", "NO", "NU", "NY" ])}></WordBoard>
-        </Route>
-        <Route path="/o">
-          <WordBoard firstLetter="O" validWords={new Set(["OB","OD", "OE", "OF", "OH", "OI", "OM", "ON", "OO", "OP", "OS", "OU", "OW", "OX", "OY" ])}></WordBoard>
-        </Route>
-        <Route path="/p">
-          <WordBoard firstLetter="P" validWords={new Set(["PA", "PE", "PI", "PO"  ])}></WordBoard>
-        </Route>
-        <Route path="/q">
-          <WordBoard firstLetter="Q" validWords={new Set(["QI" ])}></WordBoard>
-        </Route>
-        <Route path="/r">
-          <WordBoard firstLetter="R" validWords={new Set(["RE" ])}></WordBoard>
-        </Route>
-        <Route path="/s">
-          <WordBoard firstLetter="S" validWords={new Set(["SH", "SI", "SO", "ST" ])}></WordBoard>
-        </Route>
-        <Route path="/t">
-          <WordBoard firstLetter="T" validWords={new Set(["TA", "TE", "TI", "TO" ])}></WordBoard>
-        </Route>
-        <Route path="/u">
-          <WordBoard firstLetter="U" validWords={new Set(["UG", "UH", "UM", "UN", "UP", "UR", "US", "UT" ])}></WordBoard>
-        </Route>
-        <Route path="/v">
-          <WordBoard firstLetter="V" validWords={new Set()}></WordBoard>
-        </Route>
-        <Route path="/w">
-          <WordBoard firstLetter="W" validWords={new Set(["WE", "WO" ])}></WordBoard>
-        </Route>
-        <Route path="/x">
-          <WordBoard firstLetter="X" validWords={new Set(["XI", "XU" ])}></WordBoard>
-        </Route>
-        <Route path="/y">
-          <WordBoard firstLetter="Y" validWords={new Set(["YA", "YE", "YO", "YU" ])}></WordBoard>
-        </Route>
-        <Route path="/z">
-          <WordBoard firstLetter="Z" validWords={new Set(["ZO", "ZA" ])}></WordBoard>
-        </Route>
-        <Route path="/">
-          <Main></Main>
-        </Route>
-      </Switch>
-    </Router>
+      <div className="nomnomContainer">
+        <Router>
+          <Header />
+            <Switch>
+            <Route path="/a">
+              <WordBoard firstLetter="A" validWords={new Set(["AA", "AB", "AD", "AE", "AG", "AH", "AI", "AL", "AM", "AN", "AR", "AS", "AT", "AW", "AX", "AY" ])}></WordBoard>
+            </Route>
+            <Route path="/b">
+              <WordBoard firstLetter="B" validWords={new Set(["BA", "BE", "BI", "BO", "BY" ])}></WordBoard>
+            </Route>
+            <Route path="/c">
+              <WordBoard firstLetter="C" validWords={new Set(["CH" ])}></WordBoard>
+            </Route>
+            <Route path="/d">
+              <WordBoard firstLetter="D" validWords={new Set(["DA", "DE", "DI", "DO" ])}></WordBoard>
+            </Route>
+            <Route path="/e">
+              <WordBoard firstLetter="E" validWords={new Set(["EA", "ED", "EE", "EF", "EH", "EL", "EM", "EN", "ER", "ES", "ET", "EX" ])}></WordBoard>
+            </Route>
+            <Route path="/f">
+              <WordBoard firstLetter="F" validWords={new Set(["FA", "FE", "FY" ])}></WordBoard>
+            </Route>
+            <Route path="/g">
+              <WordBoard firstLetter="G" validWords={new Set(["GI", "GO", "GU" ])}></WordBoard>
+            </Route>
+            <Route path="/h">
+              <WordBoard firstLetter="H" validWords={new Set(["HA", "HE", "HI", "HM", "HO" ])}></WordBoard>
+            </Route>
+            <Route path="/i">
+              <WordBoard firstLetter="I" validWords={new Set(["ID", "IF", "IN", "IO", "IS", "IT" ])}></WordBoard>
+            </Route>
+            <Route path="/j">
+              <WordBoard firstLetter="J" validWords={new Set(["JA", "JO" ])}></WordBoard>
+            </Route>
+            <Route path="/k">
+              <WordBoard firstLetter="K" validWords={new Set(["KA", "KI", "KO", "KY" ])}></WordBoard>
+            </Route>
+            <Route path="/l">
+              <WordBoard firstLetter="L" validWords={new Set(["LA", "LI", "LO" ])}></WordBoard>
+            </Route>
+            <Route path="/m">
+              <WordBoard firstLetter="M" validWords={new Set(["MA", "ME", "MI", "MO", "MU", "MY" ])}></WordBoard>
+            </Route>
+            <Route path="/n">
+              <WordBoard firstLetter="N" validWords={new Set(["NA", "NE", "NO", "NU", "NY" ])}></WordBoard>
+            </Route>
+            <Route path="/o">
+              <WordBoard firstLetter="O" validWords={new Set(["OB","OD", "OE", "OF", "OH", "OI", "OM", "ON", "OO", "OP", "OS", "OU", "OW", "OX", "OY" ])}></WordBoard>
+            </Route>
+            <Route path="/p">
+              <WordBoard firstLetter="P" validWords={new Set(["PA", "PE", "PI", "PO"  ])}></WordBoard>
+            </Route>
+            <Route path="/q">
+              <WordBoard firstLetter="Q" validWords={new Set(["QI" ])}></WordBoard>
+            </Route>
+            <Route path="/r">
+              <WordBoard firstLetter="R" validWords={new Set(["RE" ])}></WordBoard>
+            </Route>
+            <Route path="/s">
+              <WordBoard firstLetter="S" validWords={new Set(["SH", "SI", "SO", "ST" ])}></WordBoard>
+            </Route>
+            <Route path="/t">
+              <WordBoard firstLetter="T" validWords={new Set(["TA", "TE", "TI", "TO" ])}></WordBoard>
+            </Route>
+            <Route path="/u">
+              <WordBoard firstLetter="U" validWords={new Set(["UG", "UH", "UM", "UN", "UP", "UR", "US", "UT" ])}></WordBoard>
+            </Route>
+            <Route path="/v">
+              <WordBoard firstLetter="V" validWords={new Set()}></WordBoard>
+            </Route>
+            <Route path="/w">
+              <WordBoard firstLetter="W" validWords={new Set(["WE", "WO" ])}></WordBoard>
+            </Route>
+            <Route path="/x">
+              <WordBoard firstLetter="X" validWords={new Set(["XI", "XU" ])}></WordBoard>
+            </Route>
+            <Route path="/y">
+              <WordBoard firstLetter="Y" validWords={new Set(["YA", "YE", "YO", "YU" ])}></WordBoard>
+            </Route>
+            <Route path="/z">
+              <WordBoard firstLetter="Z" validWords={new Set(["ZO", "ZA" ])}></WordBoard>
+            </Route>
+            <Route path="/">
+              <Main></Main>
+            </Route>
+          </Switch>
+        </Router>
+        </div>
     </div>
   );
 }
