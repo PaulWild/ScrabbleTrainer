@@ -13,7 +13,7 @@ const Word = ({letters, selectedCallback}: WordProps) => {
 
     useEffect(() => {
         selectedCallback(selected, letters.join(''))
-    }, [])
+    })
 
     return (
     <div className="Word" onClick={ () => setSelected(!selected) }>
