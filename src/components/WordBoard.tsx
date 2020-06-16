@@ -5,12 +5,16 @@ import { Button, makeStyles, Fade } from '@material-ui/core';
 import './WordBoard.css';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import { useDictionary, waitForDictionary } from '../dictionaries/dictionaryProvider';
 
-interface WordBoardProps {
-    firstLetter: ScrabbleLetter,
-    validWords: Set<String>
+
+interface WordBoardProps extends RouteComponentProps<IMatchParams> {   
+}
+
+interface IMatchParams {
+  letter: ScrabbleLetter
 }
 
 interface UpdateWordAction {
@@ -24,11 +28,6 @@ interface OtherAction {
 
 interface State {
   selected:  Set<String>,
-  valid: Set<String>,
-  correct: number,
-  incorrect: number,
-  numberSelected: number,
-  totalCorrectWords: number,
   showResults: boolean,
 }
 
@@ -38,25 +37,18 @@ const reducer = (state: State, action: UpdateWordAction | OtherAction) => {
         return {
           ...state,
           selected: state.selected.add(action.word),
-          numberSelected: [...state.selected].length,
-          correct: [...state.selected].filter(x => state.valid.has(x)).length,
-          incorrect: [...state.selected].filter(x => !state.valid.has(x)).length
         }
       }
       case "UnSelected": {
         state.selected.delete(action.word);
         return {
-          ...state,
-          numberSelected: [...state.selected].length,
-          correct: [...state.selected].filter(x => state.valid.has(x)).length,
-          incorrect: [...state.selected].filter(x => !state.valid.has(x)).length
+          ...state
         }
       } 
       case "Reload": {
         return {
           ...state,
           selected: new Set<string>(),
-          valid: state.valid,
           showResults: false
         }
       }
@@ -78,24 +70,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const WordBoard = ({firstLetter, validWords}: WordBoardProps) => {
+const WordBoard = (props: WordBoardProps) => {
 
-    const classes = useStyles();
-    const initState: State = {
-      selected: new Set<String>(),
-      valid: validWords,
-      correct: 0,
-      incorrect: 0,
-      numberSelected: 0,
-      totalCorrectWords: [...validWords].length,
-      showResults: false
+    const firstLetter = props.match.params.letter.toUpperCase() as ScrabbleLetter; //regex doesn't seem to work
+    const dictionary = useDictionary();
+    
+    let validWords: Set<String> = new Set<string>();
+    if (dictionary.status === 'LOADED') {
+      validWords = new Set(dictionary.words.filter(x => x.length === 2).filter(x => x.startsWith(firstLetter)));
     }
+ 
 
-    const [state , dispatch] = useReducer(reducer, initState)
+    const [state , dispatch] = useReducer(reducer, {selected: new Set<string>(), showResults: false})
+
+    const numberCorrect = () => [...state.selected].filter(x => validWords.has(x)).length
+    const numberIncorrect = () => [...state.selected].filter(x => !validWords.has(x)).length
+    const totelCorrectWords = () => [...validWords].length
+    const classes = useStyles();
+
     const selectedWordsCallBack = (isSelected: boolean, word: string) => {
         dispatch({selected: isSelected ? "Selected" : "UnSelected", word})
     } 
-
 
     return (
     <div className="Game">
@@ -141,27 +136,27 @@ const WordBoard = ({firstLetter, validWords}: WordBoardProps) => {
             </div>
           :
           <div className={`Results ${classes.root}`}>      
-          {(state.incorrect > 0 || state.correct < state.totalCorrectWords) &&    
+          {(numberIncorrect() > 0 || numberCorrect() < totelCorrectWords()) &&    
               <Fade in={state.showResults}>
                 <Alert variant="outlined" severity="info">
                   <AlertTitle>Correct Results</AlertTitle>
-                    <strong>{state.correct}</strong> out of <strong>{state.totalCorrectWords}</strong> correct word{state.totalCorrectWords === 1 ? "" :"s"}
+                    <strong>{numberCorrect()}</strong> out of <strong>{totelCorrectWords()}</strong> correct word{totelCorrectWords() === 1 ? "" :"s"}
                 </Alert>
               </Fade> 
             }     
-            {state.incorrect > 0 &&   
+            {numberIncorrect() > 0 &&   
               <Fade in={state.showResults}>
                 <Alert variant="outlined" severity="error">
                   <AlertTitle>Incorrect Results</AlertTitle>
-                    <strong className={state.incorrect > 0 ? "Warn": ""}>{state.incorrect}</strong> incorrect word{state.incorrect === 1 ? "" :"s"}
+                    <strong className={numberIncorrect() > 0 ? "Warn": ""}>{numberIncorrect()}</strong> incorrect word{numberIncorrect() === 1 ? "" :"s"}
                 </Alert>
               </Fade> 
             }
-            {(state.incorrect === 0 && state.correct === state.totalCorrectWords) &&    
+            {(numberIncorrect() === 0 && numberCorrect() === totelCorrectWords()) &&    
               <Fade in={state.showResults}>
                 <Alert variant="outlined" severity="success">
                   <AlertTitle>Correct Results</AlertTitle>
-                    All <strong>{state.correct}</strong>  word{state.correct === 1 ? "" :"s"} found!
+                    All <strong>{numberCorrect()}</strong>  word{numberCorrect() === 1 ? "" :"s"} found!
                 </Alert>
               </Fade> 
 }
@@ -173,4 +168,4 @@ const WordBoard = ({firstLetter, validWords}: WordBoardProps) => {
     </div>)
 }
 
-export default WordBoard
+export default waitForDictionary(WordBoard)
