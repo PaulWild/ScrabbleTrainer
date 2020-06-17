@@ -1,5 +1,5 @@
 import { ScrabbleLetter } from './Tile';
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import Word from './Word';
 import { Button, makeStyles, Fade } from '@material-ui/core';
 import './WordBoard.css';
@@ -12,6 +12,7 @@ import { allLetters } from '../App';
 
 
 interface WordBoardProps extends RouteComponentProps<IMatchParams> {   
+  numberOfLetters: number
 }
 
 interface IMatchParams {
@@ -78,27 +79,61 @@ const WordBoard = (props: WordBoardProps) => {
     
     let validWords: Set<String> = new Set<string>();
     if (dictionary.status === 'LOADED') {
-      validWords = new Set(dictionary.words.filter(x => x.length === 2).filter(x => x.startsWith(firstLetter)));
+      validWords = new Set(dictionary.words.filter(x => x.length === props.numberOfLetters).filter(x => x.startsWith(firstLetter)));
     }
- 
+
+    const [letters, setLetters] = useState<ScrabbleLetter[][]>([[firstLetter]])
+    const [words, setWords] = useState<Set<String>>(new Set<String>())
+
+    useEffect(() => {
+      let l = [[firstLetter]]
+      for (let i = 1; i<props.numberOfLetters;  i++) {
+        l = l.flatMap(x => allLetters.map(y => [...x,y]))
+      }
+  
+      /**
+       * Shuffles array in place.
+       * @param {Array} a items An array containing the items.
+       */
+      function shuffle<T>(a: T[]) {
+        var j, x, i;
+        for (i = a.length - 1; i > 0; i--) {
+            j = Math.floor(Math.random() * (i + 1));
+            x = a[i];
+            a[i] = a[j];
+            a[j] = x;
+        }
+        return a;
+      }
+  
+      l = shuffle(l).slice(0,50).sort();
+      const w = l.map(x => x.join(''));
+
+      setLetters(l);
+      setWords(new Set(w));
+  
+    }, [firstLetter,props])
+   
 
     const [state , dispatch] = useReducer(reducer, {selected: new Set<string>(), showResults: false})
 
     const numberCorrect = () => [...state.selected].filter(x => validWords.has(x)).length
     const numberIncorrect = () => [...state.selected].filter(x => !validWords.has(x)).length
-    const totelCorrectWords = () => [...validWords].length
+    const totelCorrectWords = () => [...words].filter(x => validWords.has(x)).length
     const classes = useStyles();
 
     const selectedWordsCallBack = (isSelected: boolean, word: string) => {
         dispatch({selected: isSelected ? "Selected" : "UnSelected", word})
     } 
 
+
+
     return (
     <div className="Game">
       {!state.showResults &&
           <div className="Board">
-            {allLetters.map((l, idx) => 
-              <Word key={idx} letters={[firstLetter, l]} selectedCallback={ selectedWordsCallBack }></Word>
+            {letters.map((l, idx) => 
+              <Word key={idx} letters={l} selectedCallback={ selectedWordsCallBack }></Word>
             )}      
           </div>
         }

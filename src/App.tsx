@@ -15,10 +15,19 @@ export const allLetters: ScrabbleLetter[] = [ "A", "B", "C", "D", "E", "F", "G",
 
 const Main = () => {
   return (
-    <div className="AllLetters"> 
-    {allLetters.map((l, idx) => 
-            <Link key={idx} to={`/${l}`}><Tile letter={l} selected={false}/></Link>
-        )}
+    <div>
+      <h2>2 Letter Words</h2>
+      <div className="AllLetters">
+            {allLetters.map((l, idx) => 
+                    <Link key={idx} to={`/2letterwords/${l}`}><Tile letter={l} selected={false}/></Link>
+                )}
+      </div>
+      <h2>3 Letter Words</h2> 
+      <div className="AllLetters">
+      {allLetters.map((l, idx) => 
+              <Link key={idx} to={`/3letterwords/${l}`}><Tile letter={l} selected={false}/></Link>
+          )}
+    </div>
   </div>)
 }
 
@@ -30,7 +39,8 @@ function App() {
           <Router>
             <Header />
               <Switch> 
-                  <Route path="/:letter([A-Z]{1})" component={WordBoard} />
+                <Route path="/2letterwords/:letter([A-Z]{1})" render={(props) => <WordBoard numberOfLetters={2} {...props}></WordBoard>} />
+                <Route path="/3letterwords/:letter([A-Z]{1})" render={(props) => <WordBoard numberOfLetters={3} {...props}></WordBoard>} />
                 <Route path="/">
                   <Main></Main>
                 </Route>
