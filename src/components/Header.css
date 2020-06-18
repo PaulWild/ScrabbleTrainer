@@ -1,0 +1,4 @@
+header .Tile {
+    transform: rotate(8deg);
+    box-shadow: none;
+}

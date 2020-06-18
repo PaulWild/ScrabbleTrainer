@@ -106,7 +106,7 @@ const WordBoard = (props: WordBoardProps) => {
         return a;
       }
   
-      l = shuffle(l).slice(0,50).sort();
+      l = shuffle(l).slice(0,75).sort();
       const w = l.map(x => x.join(''));
 
       setLetters(l);

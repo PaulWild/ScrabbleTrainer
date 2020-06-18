@@ -38,10 +38,11 @@ const lookup = {
 interface TileProps {
     letter: ScrabbleLetter
     selected: boolean
+    size?: "Small" | "Medium" | "Large"
 }
 
-const Tile = ({letter, selected}: TileProps) => {
-    return <div className={`Tile ${selected ? "Selected" : "UnSelected"}`}>{ letter}<div className="Points">{lookup[letter]}</div> </div>
+const Tile = ({letter, selected, size = "Medium"}: TileProps) => {
+    return <div className={`Tile ${selected ? "Selected" : "UnSelected"} ${size}`}>{ letter}<div className="Points">{lookup[letter]}</div> </div>
 }
 
 export default memo(Tile)

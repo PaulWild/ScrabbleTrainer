@@ -1,6 +1,6 @@
 .Tile {
-    width: 1.3em;
-    height: 1.3em;
+    width: 1.4em;
+    height: 1.25em;
     color: black;
     display: flex;
     align-items: flex-end;
@@ -11,22 +11,45 @@
     margin: .07em;
     border-color: black;
     border-style: solid;
-    font-size: xx-large;
+    font-size: x-large;
     border-width: 0.01em;
     border-radius: 0.1em;
     box-shadow: 0.05em 0.05em 0.05em gray;
 }
 
-.Selected {
+
+.Tile.Selected {
     font-weight: bolder;
     background-color: lightgreen;
 }
 
-.UnSelected {
+.Tile.UnSelected {
     font-weight: bold;
     background-color: rgb(224, 211, 178);
 }
 
-.Points {
+
+.Tile.Small .Points {
+    font-size: x-small;
+}
+
+.Tile.Medium .Points {
     font-size: small;
+}
+
+.Tile.Large .Points {
+    font-size: medium;
+}
+
+.Tile.Medium {
+    font-size: x-large;
+}
+
+
+.Tile.Large {
+    font-size: xx-large;
+}
+
+.Tile.Small {
+    font-size: large;
 }

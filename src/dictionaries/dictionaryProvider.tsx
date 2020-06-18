@@ -1,9 +1,22 @@
-import React, { createContext, FunctionComponent, ComponentType } from 'react'
+import React, { createContext, FunctionComponent, ComponentType, useState } from 'react'
 import "./Dictionary.css"
 
 type ContextState = { status: 'LOADING' | 'ERROR' } | { status: 'LOADED' ; words: string[] };
 
 const DictionaryContext = createContext<ContextState>({ status: 'LOADING' });
+
+const NavControlContext = createContext<[boolean, () => void]>([true, () => {}]);
+
+export const useNavControl = (): [boolean, () => void] => {
+ 
+  const [contextState, toggle] = React.useContext(NavControlContext);
+
+  if (contextState === null) {
+    throw new Error('useNavControl must be used within a NavControlProvider');
+  }
+
+  return [contextState, toggle];
+}
 
 export const useDictionary = (): ContextState => {
   const contextState = React.useContext(DictionaryContext);
@@ -13,6 +26,15 @@ export const useDictionary = (): ContextState => {
 
   return contextState;
 };
+
+export const NavControlProvder: FunctionComponent = ({ children }) => {
+  const [state, setState] = useState(true);
+  return (
+    <NavControlContext.Provider value={[state, () => setState(!state)]}>
+      {children}
+    </NavControlContext.Provider>
+  );
+}
 
 export const DictionaryProvider: FunctionComponent = ({ children }) => {
   const [state, setState] =  React.useState<ContextState>({ status: 'LOADING' });
