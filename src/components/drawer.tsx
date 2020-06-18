@@ -4,14 +4,16 @@ import { useNavControl } from "../dictionaries/dictionaryProvider";
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import { allLetters } from "../App";
 import Tile from "./Tile";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import HomeIcon from '@material-ui/icons/Home';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const drawerWidth = 280;
 
-const useStyles = makeStyles((theme: Theme ) =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     drawer: width => ({
       width: width ? drawerWidth : "100%",
@@ -28,29 +30,31 @@ const useStyles = makeStyles((theme: Theme ) =>
       paddingLeft: theme.spacing(4),
     },
     listFoo: {
-      color: theme.palette.text.secondary, 
+      color: theme.palette.text.secondary,
     }
   }),
 );
 
 export default function SideDrawer() {
-    const width = useMediaQuery('(min-width:600px)');
-    const [open, toggleOpen] = useNavControl()
-    const classes = useStyles(width)
-    const [itemOpen, setItemOpen] = useState(false)
-    const [itemOpen2, setItemOpen2] = useState(false)
-    
-    useEffect(() => {
-      if (!open && !width) {
-        setItemOpen(false)
-        setItemOpen2(false)
-      }
-    }, [open, width])
+  const width = useMediaQuery('(min-width:600px)');
+  const [open, toggleOpen] = useNavControl()
+  const classes = useStyles(width)
+  const [itemOpen, setItemOpen] = useState(false)
+  const [itemOpen2, setItemOpen2] = useState(false)
+  const history = useHistory();
 
-    const childNavEvent = (e: React.MouseEvent, acition: ()=>void) => {
-      e.stopPropagation();
-      acition();
+
+  useEffect(() => {
+    if (!open && !width) {
+      setItemOpen(false)
+      setItemOpen2(false)
     }
+  }, [open, width])
+
+  const childNavEvent = (e: React.MouseEvent, acition: () => void) => {
+    e.stopPropagation();
+    acition();
+  }
 
   return (<Drawer
     className={classes.drawer}
@@ -58,13 +62,13 @@ export default function SideDrawer() {
     anchor={width ? "left" : "top"}
     classes={{ paper: classes.drawerPaper }}
     open={open}
-    onClick= {toggleOpen}
+    onClick={toggleOpen}
   >
     <Toolbar />
     <div className={classes.drawerContainer}>
-    <List>
-        <ListItem >
-          <ListItemIcon><FitnessCenterIcon /></ListItemIcon>
+      <List>
+        <ListItem onClick={() => history.push('/')}>
+          <ListItemIcon><HomeIcon /></ListItemIcon>
           <ListItemText primary={"Home"} />
         </ListItem>
       </List>
@@ -82,7 +86,7 @@ export default function SideDrawer() {
         <Container>
           <div className="AllLetters">
             {allLetters.map((l, idx) =>
-              <div onClick={() => toggleOpen()} key={idx}><Link to={`/2letterwords/${l}`} ><Tile letter={l} selected={false} size="Small" /></Link></div>
+              <div onClick={() => history.push(`/2letterwords/${l}`)} key={idx}><Tile letter={l} selected={false} size="Small" /></div>
             )}
           </div></Container>
       </Collapse>
@@ -94,7 +98,7 @@ export default function SideDrawer() {
         <Container>
           <div className="AllLetters">
             {allLetters.map((l, idx) =>
-              <div onClick={() => toggleOpen()} key={idx}><Link to={`/3letterwords/${l}`} ><Tile letter={l} selected={false} size="Small" /></Link></div>
+              <div onClick={() => history.push(`/3letterwords/${l}`)} key={idx}><Tile letter={l} selected={false} size="Small" /></div>
             )}
           </div></Container>
       </Collapse>
@@ -103,8 +107,18 @@ export default function SideDrawer() {
           <ListItemIcon><ImportContactsIcon /></ListItemIcon>
           <ListItemText primary={"Reference"} />
         </ListItem>
-        <ListItem>
+        <ListItem className="comingSoon">
           <ListItemText secondary={"Word Lists"}> </ListItemText>
+        </ListItem>
+        <ListItem className="comingSoon">
+          <ListItemText secondary={"Word Checker"}> </ListItemText>
+        </ListItem>
+        <ListItem className="comingSoon">
+          <ListItemText secondary={"Anagrams"}> </ListItemText>
+        </ListItem>
+        <ListItem >
+          <ListItemIcon><SettingsIcon /></ListItemIcon>
+          <ListItemText primary={"Settings"} />
         </ListItem>
       </List>
     </div>

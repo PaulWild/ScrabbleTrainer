@@ -15,7 +15,7 @@
   min-height: 100vh;
 }
 
-a:link { color: inherit; text-decoration: none}
+a:link { color: "none"; text-decoration: none}
 
 .AllLetters {
   display: flex;
@@ -32,3 +32,12 @@ button {
 .nomnomContainer {
   margin: 0.5em
 } 
+
+.comingSoon::after {
+  content: "Coming Soon!";
+  font-family:  'Caveat', cursive;
+  font-size: medium;
+  color: lightcoral;
+  display: flex;
+  flex-grow: 100;
+}
