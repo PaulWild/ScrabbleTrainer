@@ -102,7 +102,7 @@ export const Home = () => {
         <Container className={classes.slpashContainer}>
             <div className={classes.background} />
             <Typography variant="h1" component="h1"  className={classes.title}>Scrabble Trainer</Typography> 
-            <Typography variant="h6" component="h6"  color='primary'>Tools and references to supercharge your scrabble game</Typography> 
+            <Typography variant="h6" component="h6"  color='textPrimary'>Tools and references to supercharge your scrabble game</Typography> 
         </Container>
         </section>
         <section className={classes.cSection}>
