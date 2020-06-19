@@ -89,7 +89,9 @@ const WordBoard = (props: WordBoardProps) => {
 
     setLetters(l);
     setWords(new Set(w));
-
+    setSelectedWords(new Set());
+    setShowResults(false);
+    
   }, [firstLetter, props])
 
   const numberCorrect = () => [...selectedWords].filter(x => validWords.has(x)).length
