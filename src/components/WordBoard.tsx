@@ -1,7 +1,7 @@
 import { ScrabbleLetter } from './Tile';
 import React, { useReducer, useEffect, useState } from 'react';
 import Word from './Word';
-import { Button, makeStyles, Fade } from '@material-ui/core';
+import { Button, makeStyles, Fade, Container } from '@material-ui/core';
 import './WordBoard.css';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
@@ -67,12 +67,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     '& > * + *': {
-      marginTop: "0.3em",
+      marginTop: "0.5em",
     },
   },
   game: {
     width: "100%",
-    padding: theme.spacing(3),
+    marginTop: "0.5em",
   }
 }));
 
@@ -133,7 +133,7 @@ const WordBoard = (props: WordBoardProps) => {
 
 
     return (
-    <div className={classes.game}>
+    <Container className={classes.game}>
       {!state.showResults &&
           <div className="Board">
             {letters.map((l, idx) => 
@@ -182,7 +182,7 @@ const WordBoard = (props: WordBoardProps) => {
               </Button>
           </div>  
         }          
-    </div>)
+    </Container>)
 }
 
 export default waitForDictionary(WordBoard)
