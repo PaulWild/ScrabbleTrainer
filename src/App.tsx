@@ -4,15 +4,15 @@ import WordBoard from './components/WordBoard';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
-import Tile, { ScrabbleLetter } from './components/Tile';
+import  { ScrabbleLetter } from './components/Tile';
 import Header from './components/Header';
 import { DictionaryProvider, NavControlProvder } from './dictionaries/dictionaryProvider';
 import { ThemeProvider, makeStyles, Theme, createStyles, Toolbar } from '@material-ui/core';
 import theme from "./Theme/theme"
-import SideDrawer from './components/drawer';
+import {SideDrawer} from './components/drawer';
+import { Home } from './Home';
 export const allLetters: ScrabbleLetter[] = [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -21,31 +21,10 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
     },
     content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
+      flexGrow: 1
     },
   })
 )
-
-
-const Main = () => {
-
-  return (
-    <div>
-      <h2>2 Letter Words</h2>
-      <div className="AllLetters">
-            {allLetters.map((l, idx) => 
-                    <Link key={idx} to={`/2letterwords/${l}`}><Tile letter={l} selected={false} /></Link>
-                )}
-      </div>
-      <h2>3 Letter Words</h2> 
-      <div className="AllLetters">
-      {allLetters.map((l, idx) => 
-              <Link key={idx} to={`/3letterwords/${l}`}><Tile letter={l} selected={false}/></Link>
-          )}
-    </div>
-  </div>)
-}
 
 function App() {
   const classes = useStyles();
@@ -63,9 +42,10 @@ function App() {
           <DictionaryProvider>          
                 <Switch> 
                   <Route path="/2letterwords/:letter([A-Z]{1})" render={(props) => <WordBoard numberOfLetters={2} {...props}></WordBoard>} />
-                  <Route path="/3letterwords/:letter([A-Z]{1})" render={(props) => <WordBoard numberOfLetters={3} {...props}></WordBoard>} />
+                  <Route path="/3letterwords/:letter([A-Z]{1})" render={(props) => <WordBoard numberOfLetters={3} {...props}></WordBoard>} />   
                   <Route path="/">
-                    <Main></Main>
+
+                    <Home></Home>
                   </Route>
               </Switch>
           </DictionaryProvider>

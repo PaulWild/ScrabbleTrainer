@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FunctionComponent } from "react";
 import { Drawer, Toolbar, List, ListItem, ListItemIcon, ListItemText, makeStyles, Theme, createStyles, useMediaQuery, Container, Collapse, } from "@material-ui/core";
 import { useNavControl } from "../dictionaries/dictionaryProvider";
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
@@ -10,6 +10,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import HomeIcon from '@material-ui/icons/Home';
 import SettingsIcon from '@material-ui/icons/Settings';
+import { useLocation } from 'react-router-dom';
 
 const drawerWidth = 280;
 
@@ -31,21 +32,24 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     listFoo: {
       color: theme.palette.text.secondary,
+    },
+    clickable: {
+      cursor: "pointer"
     }
   }),
 );
 
-export default function SideDrawer() {
+export const SideDrawer: FunctionComponent =  ({ children }) => {
   const width = useMediaQuery('(min-width:600px)');
   const [open, toggleOpen] = useNavControl()
   const classes = useStyles(width)
   const [itemOpen, setItemOpen] = useState(false)
   const [itemOpen2, setItemOpen2] = useState(false)
   const history = useHistory();
-
+  const location = useLocation();
 
   useEffect(() => {
-    if (!open && !width) {
+    if (open && !width) {
       setItemOpen(false)
       setItemOpen2(false)
     }
@@ -56,18 +60,26 @@ export default function SideDrawer() {
     acition();
   }
 
-  return (<Drawer
+  const maybeToggleOpen = () => {
+    if (location.pathname === "/" || !width){
+      toggleOpen();
+    }
+  }
+
+  return (
+  <>
+  <Drawer
     className={classes.drawer}
-    variant={width ? "permanent" : "temporary"}
-    anchor={width ? "left" : "top"}
+    variant={width && location.pathname !== "/" ? "permanent" : "temporary"}
+    anchor={width ? "left" : location.pathname  === "/" && width ? "left" : "top"}
     classes={{ paper: classes.drawerPaper }}
-    open={open}
-    onClick={toggleOpen}
+    open={!open}
+    onClick={maybeToggleOpen}
   >
     <Toolbar />
     <div className={classes.drawerContainer}>
       <List>
-        <ListItem onClick={() => history.push('/')}>
+        <ListItem className={classes.clickable} onClick={() => history.push('/')}>
           <ListItemIcon><HomeIcon /></ListItemIcon>
           <ListItemText primary={"Home"} />
         </ListItem>
@@ -116,11 +128,13 @@ export default function SideDrawer() {
         <ListItem className="comingSoon">
           <ListItemText secondary={"Anagrams"}> </ListItemText>
         </ListItem>
-        <ListItem >
+        <ListItem  className="comingSoon" >
           <ListItemIcon><SettingsIcon /></ListItemIcon>
-          <ListItemText primary={"Settings"} />
+          <ListItemText primary={"Settings"}/>
         </ListItem>
       </List>
     </div>
-  </Drawer>);
+  </Drawer>
+  {children}
+  </>);
 }

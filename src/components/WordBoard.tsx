@@ -70,6 +70,10 @@ const useStyles = makeStyles((theme) => ({
       marginTop: "0.3em",
     },
   },
+  game: {
+    width: "100%",
+    padding: theme.spacing(3),
+  }
 }));
 
 const WordBoard = (props: WordBoardProps) => {
@@ -129,7 +133,7 @@ const WordBoard = (props: WordBoardProps) => {
 
 
     return (
-    <div className="Game">
+    <div className={classes.game}>
       {!state.showResults &&
           <div className="Board">
             {letters.map((l, idx) => 

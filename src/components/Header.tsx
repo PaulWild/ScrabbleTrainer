@@ -1,5 +1,5 @@
 import React from 'react';
-import { Toolbar, AppBar, IconButton, Typography,  Theme, useMediaQuery } from '@material-ui/core';
+import { Toolbar, AppBar, IconButton, Typography,  Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import Tile from './Tile';
@@ -22,11 +22,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Header = () => {
   const classes = useStyles();
   const [, toggleOpen] = useNavControl()
-  const width = useMediaQuery('(min-width:600px)');
 
     return (<AppBar position="fixed" className={classes.appBar}>
     <Toolbar>
-        { !width && <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleOpen}>
+        { <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleOpen}>
                   <MenuIcon  />
         </IconButton> }
         <Tile letter="S" selected={false} /><Typography variant="h4" component="h4" className={classes.title}>crabble Trainer</Typography> 

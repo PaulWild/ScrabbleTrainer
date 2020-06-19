@@ -5,7 +5,7 @@ type ContextState = { status: 'LOADING' | 'ERROR' } | { status: 'LOADED' ; words
 
 const DictionaryContext = createContext<ContextState>({ status: 'LOADING' });
 
-const NavControlContext = createContext<[boolean, () => void]>([true, () => {}]);
+const NavControlContext = createContext<[boolean, () => void]>([false, () => {}]);
 
 export const useNavControl = (): [boolean, () => void] => {
  
