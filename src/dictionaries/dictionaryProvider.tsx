@@ -1,5 +1,6 @@
 import React, { createContext, FunctionComponent, ComponentType, useState } from 'react'
 import "./Dictionary.css"
+import { useSettings } from '../settings/SettingsProvider';
 
 type ContextState = { status: 'LOADING' | 'ERROR' } | { status: 'LOADED' ; words: string[] };
 
@@ -38,12 +39,21 @@ export const NavControlProvder: FunctionComponent = ({ children }) => {
 
 export const DictionaryProvider: FunctionComponent = ({ children }) => {
   const [state, setState] =  React.useState<ContextState>({ status: 'LOADING' });
+  const [dictionaryType, ] = useSettings();
 
+  
   React.useEffect(() => {
     setState({ status: 'LOADING' });
 
     (async (): Promise<void> => {
-      const result = await fetch("/dictionaries/sowpods.txt")
+
+      let result;
+      if (dictionaryType === 'SOWPODS') {
+        result = await fetch("/dictionaries/sowpods.txt")
+      }
+      else {
+        result = await fetch("/dictionaries/enable.txt")
+      }
 
       if (result.ok) {
         const text = await result.text();
@@ -57,7 +67,7 @@ export const DictionaryProvider: FunctionComponent = ({ children }) => {
         setState({ status: 'ERROR' });
       }
     })();
-  },[]);
+  },[dictionaryType]);
 
   return (
     <DictionaryContext.Provider value={state}>

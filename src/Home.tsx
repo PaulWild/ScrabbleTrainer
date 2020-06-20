@@ -3,6 +3,8 @@ import { Theme, Container, makeStyles, Typography, Card, CardContent, CardAction
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import SettingsIcon from '@material-ui/icons/Settings';
+import { useHistory } from 'react-router-dom';
+import { Routes } from './App';
 
 const backgroundImage ="/images/Hero.jpg"
 
@@ -95,6 +97,7 @@ const styles = makeStyles((theme: Theme) => ({
 export const Home = () => {
 
     const classes = styles();
+    const history = useHistory();
 
     return (
         <>
@@ -163,7 +166,7 @@ export const Home = () => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Go to Settings</Button>
+        <Button size="small" onClick={() => history.push(Routes.Settings)}>Go to Settings</Button>
       </CardActions>
     </Card>
     </Container>

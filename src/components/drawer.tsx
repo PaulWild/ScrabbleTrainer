@@ -128,7 +128,7 @@ export const SideDrawer: FunctionComponent =  ({ children }) => {
         <ListItem className="comingSoon">
           <ListItemText secondary={"Anagrams"}> </ListItemText>
         </ListItem>
-        <ListItem  className="comingSoon" >
+        <ListItem className={classes.clickable} onClick={() => history.push('/Settings')}>
           <ListItemIcon><SettingsIcon /></ListItemIcon>
           <ListItemText primary={"Settings"}/>
         </ListItem>
