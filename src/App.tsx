@@ -15,6 +15,7 @@ import {SideDrawer} from './components/drawer';
 import { Home } from './Home';
 import { SettingsProvider } from './settings/SettingsProvider';
 import Settings from './settings/Settings';
+import { Training } from './Training';
 export const allLetters: ScrabbleLetter[] = [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -28,9 +29,19 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-export const Routes = {
-  Settings: "/Settings"
+interface IRoutes {
+  Settings: string,
+  Training: string,
+  TwoLetterWords: (letter: ScrabbleLetter) => string, 
+  ThreeLetterWords: (letter: ScrabbleLetter) => string,
 }
+export const Routes: IRoutes = {
+  Settings: "/Settings",
+  Training: "/Training",
+  TwoLetterWords: (letter: ScrabbleLetter) => `${Routes.Training}/2LetterWords/${letter}`,  
+  ThreeLetterWords: (letter: ScrabbleLetter) => `${Routes.Training}/3LetterWords/${letter}`
+}
+
 
 function App() {
   const classes = useStyles();
@@ -48,8 +59,9 @@ function App() {
                 <Toolbar />
                 <DictionaryProvider>          
                       <Switch> 
-                        <Route path="/2letterwords/:letter([A-Z]{1})" render={(props) => <WordBoard numberOfLetters={2} {...props}></WordBoard>} />
-                        <Route path="/3letterwords/:letter([A-Z]{1})" render={(props) => <WordBoard numberOfLetters={3} {...props}></WordBoard>} />   
+                        <Route path="/Training/2LetterWords/:letter([A-Z]{1})" render={(props) => <WordBoard numberOfLetters={2} {...props}></WordBoard>} />
+                        <Route path="/Training/3LetterWords/:letter([A-Z]{1})" render={(props) => <WordBoard numberOfLetters={3} {...props}></WordBoard>} />   
+                        <Route path={Routes.Training} component={Training} />
                         <Route path={Routes.Settings} component={Settings} />
                         <Route path="/"  component={Home} />
                     </Switch>

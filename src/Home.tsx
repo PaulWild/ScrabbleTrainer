@@ -125,7 +125,7 @@ export const Home = () => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Go to training</Button>
+        <Button size="small"  onClick={() => history.push(Routes.Training)}>Go to training</Button>
       </CardActions>
     </Card>
     </Container>
@@ -144,7 +144,7 @@ export const Home = () => {
           
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions className="comingSoon">
         <Button size="small">Go to Reference</Button>
       </CardActions>
     </Card>

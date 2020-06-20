@@ -2,7 +2,7 @@ import React, { useState, useEffect, FunctionComponent } from "react";
 import { Drawer, Toolbar, List, ListItem, ListItemIcon, ListItemText, makeStyles, Theme, createStyles, useMediaQuery, Container, Collapse, } from "@material-ui/core";
 import { useNavControl } from "../dictionaries/dictionaryProvider";
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
-import { allLetters } from "../App";
+import { allLetters, Routes } from "../App";
 import Tile from "./Tile";
 import { useHistory } from "react-router-dom";
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
@@ -85,7 +85,7 @@ export const SideDrawer: FunctionComponent =  ({ children }) => {
         </ListItem>
       </List>
       <List>
-        <ListItem >
+        <ListItem className={classes.clickable} onClick={() => history.push(Routes.Training)}>
           <ListItemIcon><FitnessCenterIcon /></ListItemIcon>
           <ListItemText primary={"Training"} />
         </ListItem>
@@ -98,7 +98,7 @@ export const SideDrawer: FunctionComponent =  ({ children }) => {
         <Container>
           <div className="AllLetters">
             {allLetters.map((l, idx) =>
-              <div onClick={() => history.push(`/2letterwords/${l}`)} key={idx}><Tile letter={l} selected={false} size="Small" /></div>
+              <div onClick={() => history.push(Routes.TwoLetterWords(l))} key={idx}><Tile letter={l} selected={false} size="Small" /></div>
             )}
           </div></Container>
       </Collapse>
@@ -110,7 +110,7 @@ export const SideDrawer: FunctionComponent =  ({ children }) => {
         <Container>
           <div className="AllLetters">
             {allLetters.map((l, idx) =>
-              <div onClick={() => history.push(`/3letterwords/${l}`)} key={idx}><Tile letter={l} selected={false} size="Small" /></div>
+              <div onClick={() => history.push(Routes.ThreeLetterWords(l))} key={idx}><Tile letter={l} selected={false} size="Small" /></div>
             )}
           </div></Container>
       </Collapse>
@@ -128,7 +128,7 @@ export const SideDrawer: FunctionComponent =  ({ children }) => {
         <ListItem className="comingSoon">
           <ListItemText secondary={"Anagrams"}> </ListItemText>
         </ListItem>
-        <ListItem className={classes.clickable} onClick={() => history.push('/Settings')}>
+        <ListItem className={classes.clickable} onClick={() => history.push(Routes.Settings)}>
           <ListItemIcon><SettingsIcon /></ListItemIcon>
           <ListItemText primary={"Settings"}/>
         </ListItem>
