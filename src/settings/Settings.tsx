@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardHeader, Avatar, CardContent, makeStyles, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
+import { Card, CardHeader, Avatar, CardContent, makeStyles, FormControl, Select, MenuItem } from '@material-ui/core'
 import SettingsIcon from '@material-ui/icons/Settings';
 import { useSettings, DictionaryType } from './SettingsProvider';
 

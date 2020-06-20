@@ -112,15 +112,18 @@ const WordBoard = (props: WordBoardProps) => {
 
   }
   const selectedWordsCallBack = (word: string) => {
-    if (!showResults) {
-      if (selectedWords.has(word)) {
-        selectedWords.delete(word)
-        setSelectedWords(new Set(selectedWords))
-      }
-      else {
-        setSelectedWords(new Set(selectedWords.add(word)))
-      }
+    if (showResults === true) {
+      setShowResults(!showResults)
     }
+
+    if (selectedWords.has(word)) {
+      selectedWords.delete(word)
+      setSelectedWords(new Set(selectedWords))
+    }
+    else {
+      setSelectedWords(new Set(selectedWords.add(word)))
+    }
+    
   }
 
   return (
