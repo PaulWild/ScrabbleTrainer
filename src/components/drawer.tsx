@@ -91,7 +91,7 @@ export const SideDrawer: FunctionComponent =  ({ children }) => {
         </ListItem>
       </List>
       <ListItem button onClick={(e) => childNavEvent(e, () => setItemOpen(!itemOpen))}>
-        <ListItemText secondary="2 Letter Words" color="textSecondary" />
+        <ListItemText secondary="2-Letter Words" color="textSecondary" />
         {itemOpen ? <ExpandLess className={classes.listFoo} /> : <ExpandMore className={classes.listFoo} />}
       </ListItem>
       <Collapse in={itemOpen} timeout="auto" unmountOnExit>
@@ -103,7 +103,7 @@ export const SideDrawer: FunctionComponent =  ({ children }) => {
           </div></Container>
       </Collapse>
       <ListItem button onClick={(e) => childNavEvent(e, () => setItemOpen2(!itemOpen2))}>
-        <ListItemText secondary="3 Letter Words" color="textSecondary" />
+        <ListItemText secondary="3-Letter Words" color="textSecondary" />
         {itemOpen2 ? <ExpandLess className={classes.listFoo} /> : <ExpandMore className={classes.listFoo} />}
       </ListItem>
       <Collapse in={itemOpen2} timeout="auto" unmountOnExit>
