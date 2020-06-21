@@ -59,7 +59,7 @@ export const Anagram = () => {
       setLoading("LOADING")
 
       //naughty
-      fetch(`https://scrabble.paulwild.dev/api/anagram?word=${value}`)
+      fetch(`https://scrabble.paulwild.dev/api/anagram?word=${value}&dict=${dictionaryType}`)
         .then(x => x.json())
         .then(x => setResults(x))
         .finally(() => setLoading("LOADED"))
