@@ -97,7 +97,7 @@ export const Anagram = () => {
         </FormControl>
         {results.map((l, idx) => 
           <div className={classes.word}>
-            <Word key={idx} letters={l.split('').map(x => x as ScrabbleLetter)} highlight='none' size={value.length > 8 ? 'Small': 'Medium'}/>
+            <Word key={idx} letters={l.split('').map(x => x as ScrabbleLetter)} highlight='none' size={results[0].length > 8 ? 'Small': 'Medium'}/>
           </div>)}      
       </CardContent>
     </Card>
