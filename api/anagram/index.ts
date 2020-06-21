@@ -56,6 +56,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
                 status: 400,
                 body: "Please only use up to two blanks"
             };
+            context.done()
             return;
         }
 
@@ -74,13 +75,16 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
             results.push(...words)
         }
         
+        context.res.headers["Cache-Control"] = "public, max-age=31536000, immutable, no-custom"
         context.res = {
             // status: 200, /* Defaults to 200 */
             body: results,
             headers: {
+                ...context.res.headers,
                 "Cache-Control": "public, max-age=31536000, immutable, no-custom"
             }
         };
+        context.done()
         return;
     }
     else {
@@ -88,6 +92,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
             status: 400,
             body: "Please pass an id on the query string"
         };
+        context.done()
     }
 };
 

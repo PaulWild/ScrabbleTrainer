@@ -43,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row-reverse',
 
   },
+  words: {
+    cursor: "pointer"
+  },
   avatar: {
     backgroundColor: theme.palette.secondary.main,
   },
@@ -130,7 +133,7 @@ const WordBoard = (props: WordBoardProps) => {
     <Card className={classes.root}>
       <CardHeader
         avatar={
-          <Avatar aria-label="training" className={classes.avatar}>
+          <Avatar aria-label="training" className={classes.words}>
             <FitnessCenterIcon />
           </Avatar>
         }
@@ -140,7 +143,7 @@ const WordBoard = (props: WordBoardProps) => {
       <CardContent>
         <div className="Board">
           {letters.map((l, idx) => 
-          <div onClick={() => selectedWordsCallBack(l.join(''))}>
+          <div onClick={() => selectedWordsCallBack(l.join(''))} className={classes.words}>
             <Word key={idx} letters={l} highlight={selectedWords.has(l.join('')) ? 'selected' : 'none'} />
           </div>)}           
         </div>

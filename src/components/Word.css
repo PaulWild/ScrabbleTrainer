@@ -1,8 +1,7 @@
 .Word {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    cursor: pointer; 
+    justify-content: center; 
     width: min-content;
     margin-left: 0.9em;
     margin-right: 0.9em;
