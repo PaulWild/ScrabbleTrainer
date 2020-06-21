@@ -3,15 +3,16 @@ import React from 'react';
 import './Word.css';
 
 interface WordProps {
-    letters: ScrabbleLetter[]
-    highlight: 'none' | 'selected' 
+    letters: ScrabbleLetter[],
+    highlight: 'none' | 'selected',
+    size?: 'Small' | 'Medium' | 'Large'
 }
 
-const Word = ({letters, highlight }: WordProps) => {
+const Word = ({letters, highlight, size='Medium' }: WordProps) => {
     return (
     <div className="Word">
         {letters.map((l, idx) => 
-            <Tile key={idx} letter={l} selected={highlight === 'selected'}></Tile>
+            <Tile key={idx} letter={l} selected={highlight === 'selected'} size={size}></Tile>
         )}
     </div>)
 }

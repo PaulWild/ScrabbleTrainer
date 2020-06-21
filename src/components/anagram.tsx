@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
         flexFlow: 'row wrap',
     },
     card: {
-      minWidth: '30em',
+      maxWidth: '60em',
       margin: '2em'
     },
     word: {
@@ -97,7 +97,7 @@ export const Anagram = () => {
         </FormControl>
         {results.map((l, idx) => 
           <div className={classes.word}>
-            <Word key={idx} letters={l.split('').map(x => x as ScrabbleLetter)} highlight='none' />
+            <Word key={idx} letters={l.split('').map(x => x as ScrabbleLetter)} highlight='none' size={value.length > 8 ? 'Small': 'Medium'}/>
           </div>)}      
       </CardContent>
     </Card>

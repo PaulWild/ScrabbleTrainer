@@ -51,6 +51,14 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
     if (word) {
 
+        if (word.length >10) {
+            context.res = {
+                status: 400,
+                body: "Please only use up to 10 letters"
+            };
+            context.done()
+            return;           
+        }
         if (word.split('').filter(x => x === "_").length > 2) {
             context.res = {
                 status: 400,
