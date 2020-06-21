@@ -17,6 +17,7 @@
     "typescript": "^3.3.3"
   },
   "dependencies": {
-    "@azure/cosmos": "^3.7.2"
+    "@azure/cosmos": "^3.7.2",
+    "@types/node": "^14.0.13"
   }
 }
