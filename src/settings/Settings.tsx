@@ -43,8 +43,8 @@ const Settings = () => {
           id="settings-input"
           onChange={handleChange}
         >
-          <MenuItem value="SOWPODS">Sowpods</MenuItem>
-          <MenuItem value="ENABLE">Enable</MenuItem>
+          <MenuItem value="sowpods">Sowpods</MenuItem>
+          <MenuItem value="enable">Enable</MenuItem>
         </Select>
       </FormControl>
         </CardContent>

@@ -1,14 +1,14 @@
 import React, { FunctionComponent, createContext } from 'react'
 
 
-export type DictionaryType = "SOWPODS" | "ENABLE"
-const SettingsContext = createContext<[DictionaryType, (x: DictionaryType) => void]>(["SOWPODS", x => {}]);
+export type DictionaryType = "sowpods" | "enable"
+const SettingsContext = createContext<[DictionaryType, (x: DictionaryType) => void]>(["sowpods", x => {}]);
 
 export const SettingsProvider: FunctionComponent = ({ children }) => {
 
     const settings = localStorage.getItem('settings') as DictionaryType
 
-    const [state, setState] =  React.useState<DictionaryType>(settings ?? "SOWPODS");
+    const [state, setState] =  React.useState<DictionaryType>(settings ?? "sowpods");
 
     const updateState = (setting: DictionaryType) => {
       localStorage.setItem('settings', setting) 

@@ -1,7 +1,12 @@
 import React, { createContext, FunctionComponent, ComponentType, useState } from 'react'
 import "./Dictionary.css"
 import { useSettings } from '../settings/SettingsProvider';
+import { ScrabbleLetter } from '../components/Tile';
 
+
+interface IDictionary {
+  words: (firstletter: ScrabbleLetter, length:number) => string[]
+}
 type ContextState = { status: 'LOADING' | 'ERROR' } | { status: 'LOADED' ; words: string[] };
 
 const DictionaryContext = createContext<ContextState>({ status: 'LOADING' });
@@ -48,7 +53,7 @@ export const DictionaryProvider: FunctionComponent = ({ children }) => {
     (async (): Promise<void> => {
 
       let result;
-      if (dictionaryType === 'SOWPODS') {
+      if (dictionaryType === 'sowpods') {
         result = await fetch("/dictionaries/sowpods.txt")
       }
       else {

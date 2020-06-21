@@ -4,6 +4,7 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import Word from './Word';
 import { ScrabbleLetter } from './Tile';
+import { useSettings } from '../settings/SettingsProvider';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,6 +45,7 @@ export const Anagram = () => {
     const [value, setValue] = React.useState('');
     const [loading, setLoading] = React.useState<"INIT"|"LOADING"|"LOADED">("INIT");
     const [results, setResults] = React.useState<string[]>([]);
+    const [dictionaryType, ] = useSettings();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setValue(event.target.value);

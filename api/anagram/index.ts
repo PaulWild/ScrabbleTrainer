@@ -45,9 +45,9 @@ const primeNumbersMap: { [id: string] : number[]; } =
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
     context.log('HTTP trigger function processed a request.');
     const word = (req.query.word);
+    const dict = (req.query.dict);
     const database  = client.database("scrabbletrainer");
-    const  container = database.container("sowdpods_anagrams");
-  
+    const  container = database.container(`${dict}_anagrams`);
 
     if (word) {
 
