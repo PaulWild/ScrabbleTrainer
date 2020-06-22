@@ -2,6 +2,7 @@ import "./Dictionary.css"
 import { useSettings } from '../settings/SettingsProvider';
 import { ScrabbleLetter } from '../components/Tile';
 import { useState, useEffect } from "react";
+import Configuration from "../configuration";
 
 
 type AsyncLoad<T> =  { state: "Init"} | { state: "Loading"} | { state: "Loaded", result: T} | { state: "Error" }
@@ -12,8 +13,7 @@ type WordCheckState = AsyncLoad<boolean>
 
 const Dictionary = (type:string) => {
     return async (firstletter: ScrabbleLetter, length:number): Promise<string[]>  => {
-        const x = await fetch(`https://scrabble.paulwild.dev/api/wordlists?letter=${firstletter}&length=${length}&dict=${type}`)
-        //const x = await fetch(`http://localhost:7071/api/wordlists?letter=${firstletter}&length=${length}&dict=${type}`);
+        const x = await fetch(`${Configuration.ApiHost}/api/wordlists?letter=${firstletter}&length=${length}&dict=${type}`)
         return await x.json();
     }
 }
@@ -44,7 +44,7 @@ export const useWordCheck = (): [AsyncLoad<Boolean>, (x: string[]) => void] => {
 
     const wordQuery = words.join('&word=');
     //fetch(`http://localhost:7071/api/wordcheck?dict=${type}&word=${wordQuery}`)
-    fetch(`https://scrabble.paulwild.dev/api/wordcheck?dict=${type}&word=${wordQuery}`)
+    fetch(`${Configuration.ApiHost}/api/wordcheck?dict=${type}&word=${wordQuery}`)
       .then(x => x.text())
       .then(x => updateState({state: "Loaded", result: x === "True"}))
       .catch(() => updateState({state: "Error"}))  

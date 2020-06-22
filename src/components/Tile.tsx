@@ -38,7 +38,7 @@ const lookup = {
 interface TileProps {
     letter: ScrabbleLetter
     selected: boolean
-    size?: "Small" | "Medium" | "Large"
+    size?: "Smallest" | "Small" | "Medium" | "Large"
 }
 
 const Tile = ({letter, selected, size = "Medium"}: TileProps) => {

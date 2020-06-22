@@ -5,7 +5,7 @@ import './Word.css';
 interface WordProps {
     letters: ScrabbleLetter[],
     highlight: 'none' | 'selected',
-    size?: 'Small' | 'Medium' | 'Large'
+    size?: 'Smallest' | 'Small' | 'Medium' | 'Large'
 }
 
 const Word = ({letters, highlight, size='Medium' }: WordProps) => {

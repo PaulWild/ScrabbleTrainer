@@ -5,6 +5,7 @@ import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import Word from './Word';
 import { ScrabbleLetter } from './Tile';
 import { useSettings } from '../settings/SettingsProvider';
+import Configuration from '../configuration';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -59,7 +60,7 @@ export const Anagram = () => {
       setLoading("LOADING")
 
       //naughty
-      fetch(`https://scrabble.paulwild.dev/api/anagram?word=${value}&dict=${dictionaryType}`)
+      fetch(`${Configuration.ApiHost}/api/anagram?word=${value}&dict=${dictionaryType}`)
         .then(x => x.json())
         .then(x => setResults(x))
         .finally(() => setLoading("LOADED"))
@@ -99,7 +100,7 @@ export const Anagram = () => {
         </FormControl>
         {results.map((l, idx) => 
           <div className={classes.word}>
-            <Word key={idx} letters={l.split('').map(x => x as ScrabbleLetter)} highlight='none' size={results[0].length > 8 ? 'Small': 'Medium'}/>
+            <Word key={idx} letters={l.split('').map(x => x as ScrabbleLetter)} highlight='none' size={results[0].length > 8 ? 'Smallest': 'Small'}/>
           </div>)}      
       </CardContent>
     </Card>

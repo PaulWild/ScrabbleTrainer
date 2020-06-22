@@ -33,6 +33,10 @@
     font-size: x-small;
 }
 
+.Tile.Smallest .Points {
+    font-size: xx-small;
+}
+
 .Tile.Medium .Points {
     font-size: small;
 }

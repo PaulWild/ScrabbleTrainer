@@ -61,7 +61,6 @@ export const WordCheck = () => {
     const classes = useStyles();
     const [value, setValue] = React.useState('');
     const [values, setValues] = React.useState<string[]>([])
-
     const [state, checkWords] = useWordCheck();
 
 
