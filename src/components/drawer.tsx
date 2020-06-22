@@ -1,6 +1,5 @@
 import React, { useState, useEffect, FunctionComponent } from "react";
 import { Drawer, Toolbar, List, ListItem, ListItemIcon, ListItemText, makeStyles, Theme, createStyles, useMediaQuery, Container, Collapse, } from "@material-ui/core";
-import { useNavControl } from "../dictionaries/dictionaryProvider";
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import { allLetters, Routes } from "../App";
 import Tile from "./Tile";
@@ -11,6 +10,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import HomeIcon from '@material-ui/icons/Home';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { useLocation } from 'react-router-dom';
+import { useNavControl } from "../navbar/navbar";
 
 const drawerWidth = 280;
 

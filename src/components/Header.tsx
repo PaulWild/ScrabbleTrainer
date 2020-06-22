@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import Tile from './Tile';
 import "./Header.css"
-import { useNavControl } from '../dictionaries/dictionaryProvider';
+import { useNavControl } from '../navbar/navbar';
 
 const useStyles = makeStyles((theme: Theme) => ({
   appBar: {

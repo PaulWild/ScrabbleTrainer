@@ -1,12 +1,12 @@
 import { ScrabbleLetter } from './Tile';
 import React, { useEffect, useState } from 'react';
 import Word from './Word';
-import { Button, makeStyles, Fade, Card, CardHeader, Avatar,  CardContent } from '@material-ui/core';
+import { Button, makeStyles, Fade, Card, CardHeader, Avatar,  CardContent, Backdrop, CircularProgress } from '@material-ui/core';
 import './WordBoard.css';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import { RouteComponentProps } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import { useDictionary, waitForDictionary } from '../dictionaries/dictionaryProvider';
+import { useDictionary } from '../dictionaries/dictionaryProvider';
 import { allLetters } from '../App';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 
@@ -49,24 +49,31 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: theme.palette.secondary.main,
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 100,
+    color: '#fff',
+  }
 }));
 
 const WordBoard = (props: WordBoardProps) => {
 
   const firstLetter = props.match.params.letter.toUpperCase() as ScrabbleLetter; //regex doesn't seem to work
+  const [loading, setLoading] = useState<boolean>(true);
+  const [validWords, setValidWords] = useState<Set<string>>(new Set<string>());
   const dictionary = useDictionary();
 
-  let validWords: Set<String> = new Set<string>();
-  if (dictionary.status === 'LOADED') {
-    validWords = new Set(dictionary.words.filter(x => x.length === props.numberOfLetters).filter(x => x.startsWith(firstLetter)));
-  }
-
   const [letters, setLetters] = useState<ScrabbleLetter[][]>([[firstLetter]])
-  const [words, setWords] = useState<Set<String>>(new Set<String>())
-  const [selectedWords, setSelectedWords] = useState<Set<String>>(new Set<String>())
+  const [words, setWords] = useState<Set<string>>(new Set<string>())
+  const [selectedWords, setSelectedWords] = useState<Set<string>>(new Set<string>())
   const [showResults, setShowResults] = useState(false)
 
   useEffect(() => {
+    (async () => {
+      const validWords = new Set(await dictionary.words(firstLetter, props.numberOfLetters));
+      setValidWords(validWords);
+      setLoading(false)
+    })();   
+
     let l = [[firstLetter]]
     for (let i = 1; i < props.numberOfLetters; i++) {
       l = l.flatMap(x => allLetters.map(y => [...x, y]))
@@ -130,6 +137,10 @@ const WordBoard = (props: WordBoardProps) => {
   }
 
   return (
+    <>
+    <Backdrop className={classes.backdrop} open={loading}>
+        <CircularProgress color="inherit" />
+    </Backdrop>
     <Card className={classes.root}>
       <CardHeader
         avatar={
@@ -188,7 +199,8 @@ const WordBoard = (props: WordBoardProps) => {
         </div>
         }
       </CardContent>
-    </Card>)
+    </Card>
+    </>)
 }
 
-export default waitForDictionary(WordBoard)
+export default WordBoard

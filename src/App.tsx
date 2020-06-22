@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 import  { ScrabbleLetter } from './components/Tile';
 import Header from './components/Header';
-import { DictionaryProvider, NavControlProvder } from './dictionaries/dictionaryProvider';
 import { ThemeProvider, makeStyles, Theme, createStyles, Toolbar } from '@material-ui/core';
 import theme from "./Theme/theme"
 import {SideDrawer} from './components/drawer';
@@ -17,6 +16,7 @@ import { SettingsProvider } from './settings/SettingsProvider';
 import Settings from './settings/Settings';
 import { Training } from './Training';
 import { Anagram } from './components/anagram';
+import { NavControlProvder } from './navbar/navbar';
 export const allLetters: ScrabbleLetter[] = [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -62,7 +62,6 @@ function App() {
             <SideDrawer />
               <main className={classes.content}>
                 <Toolbar />
-                <DictionaryProvider>          
                       <Switch> 
                         <Route path="/Training/2LetterWords/:letter([A-Z]{1})" render={(props) => <WordBoard numberOfLetters={2} {...props}></WordBoard>} />
                         <Route path="/Training/3LetterWords/:letter([A-Z]{1})" render={(props) => <WordBoard numberOfLetters={3} {...props}></WordBoard>} />  
@@ -71,7 +70,6 @@ function App() {
                         <Route path={Routes.Settings} component={Settings} />
                         <Route path="/"  component={Home} />
                     </Switch>
-                </DictionaryProvider>
             </main>  
             </div>
           </NavControlProvder>
