@@ -44,7 +44,7 @@ export const useWordCheck = (): [AsyncLoad<Boolean>, (x: string[]) => void] => {
 
     const wordQuery = words.join('&word=');
     //fetch(`http://localhost:7071/api/wordcheck?dict=${type}&word=${wordQuery}`)
-    fetch(`https://scrabble.paulwild.dev/api/wordcheck?dict=${type}${wordQuery}`)
+    fetch(`https://scrabble.paulwild.dev/api/wordcheck?dict=${type}&word=${wordQuery}`)
       .then(x => x.text())
       .then(x => updateState({state: "Loaded", result: x === "True"}))
       .catch(() => updateState({state: "Error"}))  
