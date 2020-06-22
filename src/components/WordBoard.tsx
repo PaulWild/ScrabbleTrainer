@@ -46,13 +46,14 @@ const useStyles = makeStyles((theme) => ({
   words: {
     cursor: "pointer"
   },
-  avatar: {
-    backgroundColor: theme.palette.secondary.main,
-  },
   backdrop: {
     zIndex: theme.zIndex.drawer + 100,
     color: '#fff',
-  }
+  },
+  avatar: {
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.common.white,
+  },  
 }));
 
 const WordBoard = (props: WordBoardProps) => {
@@ -97,9 +98,9 @@ const WordBoard = (props: WordBoardProps) => {
     
   }, [firstLetter, props.numberOfLetters])
 
-  const numberCorrect = () => [...selectedWords].filter(x => (validWords.state === "Loaded") ? validWords.words.has(x) : false).length
-  const numberIncorrect = () => [...selectedWords].filter(x => (validWords.state === "Loaded") ? !validWords.words.has(x) : false).length
-  const totelCorrectWords = () => [...words].filter(x => (validWords.state === "Loaded") ? validWords.words.has(x) : false).length
+  const numberCorrect = () => [...selectedWords].filter(x => (validWords.state === "Loaded") ? validWords.result.has(x) : false).length
+  const numberIncorrect = () => [...selectedWords].filter(x => (validWords.state === "Loaded") ? !validWords.result.has(x) : false).length
+  const totelCorrectWords = () => [...words].filter(x => (validWords.state === "Loaded") ? validWords.result.has(x) : false).length
   const classes = useStyles();
 
   const wording = () => {
@@ -137,7 +138,7 @@ const WordBoard = (props: WordBoardProps) => {
     <Card className={classes.root}>
       <CardHeader
         avatar={
-          <Avatar aria-label="training" className={classes.words}>
+          <Avatar aria-label="training" className={classes.avatar}>
             <FitnessCenterIcon />
           </Avatar>
         }

@@ -53,7 +53,7 @@ export const Anagram = () => {
 
     const noResults = () => loading === "LOADED" && results.length === 0
 
-    const onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const onFormSubmit = (event: React.FormEvent<HTMLFormElement> | React.FormEvent<HTMLDivElement>) => {
       event.preventDefault();
 
       setLoading("LOADING")
@@ -91,7 +91,7 @@ export const Anagram = () => {
             onChange={handleChange}
             value={value}
             endAdornment={
-                <InputAdornment  position="end">
+                <InputAdornment  position="end" onSubmit={onFormSubmit} className="Clickable">
                 <ArrowForwardIcon color="secondary"/>
                 </InputAdornment>
             }

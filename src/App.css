@@ -25,6 +25,9 @@ a:link { color: "none"; text-decoration: none}
   cursor: pointer; 
 }
 
+.Clickable {
+  cursor: pointer;  
+}
 button {
   margin: 1em;
 }

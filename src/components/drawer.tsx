@@ -122,7 +122,7 @@ export const SideDrawer: FunctionComponent =  ({ children }) => {
         <ListItem className="comingSoon">
           <ListItemText secondary={"Word Lists"}> </ListItemText>
         </ListItem>
-        <ListItem className="comingSoon">
+        <ListItem  className={classes.clickable} onClick={() => history.push(Routes.WordCheck())}>
           <ListItemText secondary={"Word Checker"}> </ListItemText>
         </ListItem>
         <ListItem className={classes.clickable} onClick={() => history.push(Routes.Anagram())}>
