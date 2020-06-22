@@ -115,17 +115,17 @@ export const SideDrawer: FunctionComponent =  ({ children }) => {
           </div></Container>
       </Collapse>
       <List>
-        <ListItem>
+        <ListItem className={classes.clickable} onClick={() => history.push(Routes.Reference)}>
           <ListItemIcon><ImportContactsIcon /></ListItemIcon>
           <ListItemText primary={"Reference"} />
         </ListItem>
         <ListItem className="comingSoon">
           <ListItemText secondary={"Word Lists"}> </ListItemText>
         </ListItem>
-        <ListItem  className={classes.clickable} onClick={() => history.push(Routes.WordCheck())}>
+        <ListItem  className={classes.clickable} onClick={() => history.push(Routes.WordCheck)}>
           <ListItemText secondary={"Word Checker"}> </ListItemText>
         </ListItem>
-        <ListItem className={classes.clickable} onClick={() => history.push(Routes.Anagram())}>
+        <ListItem className={classes.clickable} onClick={() => history.push(Routes.Anagram)}>
           <ListItemText secondary={"Anagrams"}> </ListItemText>
         </ListItem>
         <ListItem className={classes.clickable} onClick={() => history.push(Routes.Settings)}>

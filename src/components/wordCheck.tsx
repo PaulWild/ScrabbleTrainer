@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardHeader, Avatar, CardContent, makeStyles, FormControl, InputLabel, Input, InputAdornment, Backdrop, CircularProgress, Button } from '@material-ui/core'
+import { Card, CardHeader, Avatar, CardContent, makeStyles, FormControl, InputLabel, Input, InputAdornment, Backdrop, CircularProgress, Button, IconButton } from '@material-ui/core'
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import Word from './Word';
 import { ScrabbleLetter } from './Tile';
@@ -69,7 +69,7 @@ export const WordCheck = () => {
     };
 
 
-    const onFormSubmit = (event: React.FormEvent<HTMLFormElement> | React.FormEvent<HTMLDivElement>) => {
+    const onFormSubmit = (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       event.preventDefault();
 
       const v = Array.from(values)
@@ -103,8 +103,10 @@ export const WordCheck = () => {
             onChange={handleChange}
             value={value}
             endAdornment={
-                <InputAdornment  position="end" onSubmit={onFormSubmit} className="Clickable">
+                <InputAdornment  position="end" className="Clickable">
+                                  <IconButton aria-label="settings"  onClick={onFormSubmit}>
                 <AddIcon color="secondary"/>
+                </IconButton>
                 </InputAdornment>
             }
             />

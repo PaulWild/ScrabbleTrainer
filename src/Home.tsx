@@ -144,8 +144,8 @@ export const Home = () => {
           
         </Typography>
       </CardContent>
-      <CardActions className="comingSoon">
-        <Button size="small">Go to Reference</Button>
+      <CardActions>
+        <Button size="small" onClick={() => history.push(Routes.Reference)}>Go to Reference</Button>
       </CardActions>
     </Card>
     </Container>

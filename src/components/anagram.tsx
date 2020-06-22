@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardHeader, Avatar, CardContent, makeStyles, FormControl, InputLabel, Input, InputAdornment, Backdrop, CircularProgress } from '@material-ui/core'
+import { Card, CardHeader, Avatar, CardContent, makeStyles, FormControl, InputLabel, Input, InputAdornment, Backdrop, CircularProgress, IconButton } from '@material-ui/core'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import Word from './Word';
@@ -54,7 +54,7 @@ export const Anagram = () => {
 
     const noResults = () => loading === "LOADED" && results.length === 0
 
-    const onFormSubmit = (event: React.FormEvent<HTMLFormElement> | React.FormEvent<HTMLDivElement>) => {
+    const onFormSubmit = (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       event.preventDefault();
 
       setLoading("LOADING")
@@ -92,8 +92,10 @@ export const Anagram = () => {
             onChange={handleChange}
             value={value}
             endAdornment={
-                <InputAdornment  position="end" onSubmit={onFormSubmit} className="Clickable">
+                <InputAdornment  position="end"  className="Clickable">
+                <IconButton aria-label="settings" onClick={onFormSubmit}>
                 <ArrowForwardIcon color="secondary"/>
+                </IconButton>
                 </InputAdornment>
             }
             />
