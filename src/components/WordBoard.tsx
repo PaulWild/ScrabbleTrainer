@@ -6,7 +6,7 @@ import './WordBoard.css';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import { RouteComponentProps } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import { useDictionary } from '../dictionaries/dictionaryProvider';
+import { useWordList } from '../dictionaries/dictionaryProvider';
 import { allLetters } from '../App';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 
@@ -58,22 +58,15 @@ const useStyles = makeStyles((theme) => ({
 const WordBoard = (props: WordBoardProps) => {
 
   const firstLetter = props.match.params.letter.toUpperCase() as ScrabbleLetter; //regex doesn't seem to work
-  const [loading, setLoading] = useState<boolean>(true);
-  const [validWords, setValidWords] = useState<Set<string>>(new Set<string>());
-  const dictionary = useDictionary();
-
   const [letters, setLetters] = useState<ScrabbleLetter[][]>([[firstLetter]])
   const [words, setWords] = useState<Set<string>>(new Set<string>())
   const [selectedWords, setSelectedWords] = useState<Set<string>>(new Set<string>())
-  const [showResults, setShowResults] = useState(false)
+  const [showResults, setShowResults] = useState<boolean>(false);
+  const validWords = useWordList(firstLetter, props.numberOfLetters)
 
-  useEffect(() => {
-    (async () => {
-      const validWords = new Set(await dictionary.words(firstLetter, props.numberOfLetters));
-      setValidWords(validWords);
-      setLoading(false)
-    })();   
 
+  useEffect(() => { 
+  
     let l = [[firstLetter]]
     for (let i = 1; i < props.numberOfLetters; i++) {
       l = l.flatMap(x => allLetters.map(y => [...x, y]))
@@ -102,11 +95,11 @@ const WordBoard = (props: WordBoardProps) => {
     setSelectedWords(new Set());
     setShowResults(false);
     
-  }, [firstLetter, props])
+  }, [firstLetter, props.numberOfLetters])
 
-  const numberCorrect = () => [...selectedWords].filter(x => validWords.has(x)).length
-  const numberIncorrect = () => [...selectedWords].filter(x => !validWords.has(x)).length
-  const totelCorrectWords = () => [...words].filter(x => validWords.has(x)).length
+  const numberCorrect = () => [...selectedWords].filter(x => (validWords.state === "Loaded") ? validWords.words.has(x) : false).length
+  const numberIncorrect = () => [...selectedWords].filter(x => (validWords.state === "Loaded") ? !validWords.words.has(x) : false).length
+  const totelCorrectWords = () => [...words].filter(x => (validWords.state === "Loaded") ? validWords.words.has(x) : false).length
   const classes = useStyles();
 
   const wording = () => {
@@ -137,10 +130,10 @@ const WordBoard = (props: WordBoardProps) => {
   }
 
   return (
-    <>
-    <Backdrop className={classes.backdrop} open={loading}>
+    <>{ validWords.state === "Loading" ?
+    <Backdrop className={classes.backdrop} open={true}>
         <CircularProgress color="inherit" />
-    </Backdrop>
+    </Backdrop> :
     <Card className={classes.root}>
       <CardHeader
         avatar={
@@ -199,7 +192,7 @@ const WordBoard = (props: WordBoardProps) => {
         </div>
         }
       </CardContent>
-    </Card>
+    </Card>}
     </>)
 }
 
