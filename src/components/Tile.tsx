@@ -2,7 +2,7 @@
 import React, { memo } from "react";
 import './Tile.css';
 
-export type ScrabbleLetter = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" | " ";
+export type ScrabbleLetter = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" | "_";
 export type ScrablePoint = "" |1 | 2 | 3 | 4 | 5 | 8 | 10;
 
 const lookup = {
@@ -32,7 +32,7 @@ const lookup = {
     "X" : 8, 
     "Y" : 4,
     "Z" : 10, 
-    " " : ""
+    "_" : ""
 }
 
 interface TileProps {

@@ -58,17 +58,16 @@ const useStyles = makeStyles((theme) => ({
 
 const WordBoard = (props: WordBoardProps) => {
 
-  const firstLetter = props.match.params.letter.toUpperCase() as ScrabbleLetter; //regex doesn't seem to work
-  const [letters, setLetters] = useState<ScrabbleLetter[][]>([[firstLetter]])
+  const firstLetter = props.match.params.letter.toUpperCase(); //regex doesn't seem to work
+  const [letters, setLetters] = useState<ScrabbleLetter[][]>([[firstLetter as ScrabbleLetter]])
   const [words, setWords] = useState<Set<string>>(new Set<string>())
   const [selectedWords, setSelectedWords] = useState<Set<string>>(new Set<string>())
   const [showResults, setShowResults] = useState<boolean>(false);
   const validWords = useWordList(firstLetter, props.numberOfLetters)
 
-
   useEffect(() => { 
   
-    let l = [[firstLetter]]
+    let l = [[firstLetter as ScrabbleLetter]]
     for (let i = 1; i < props.numberOfLetters; i++) {
       l = l.flatMap(x => allLetters.map(y => [...x, y]))
     }

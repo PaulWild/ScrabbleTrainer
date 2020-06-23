@@ -7,27 +7,31 @@ import Configuration from "../configuration";
 
 type AsyncLoad<T> =  { state: "Init"} | { state: "Loading"} | { state: "Loaded", result: T} | { state: "Error" }
 
-type WordListState = AsyncLoad<Set<String>>
+export type WordListState = AsyncLoad<Set<String>>
 
 type WordCheckState = AsyncLoad<boolean>
 
 const Dictionary = (type:string) => {
-    return async (firstletter: ScrabbleLetter, length:number): Promise<string[]>  => {
-        const x = await fetch(`${Configuration.ApiHost}/api/wordlists?letter=${firstletter}&length=${length}&dict=${type}`)
+    return async (firstletter: string, length:number): Promise<string[]>  => {
+        const x = await fetch(`${Configuration.ApiHost}/api/wordlists?startsWith=${firstletter}&length=${length}&dict=${type}`)
         return await x.json();
     }
 }
 
-export const useWordList = (firstLetter: ScrabbleLetter, length: number) => {
+export const useWordList = (startsWith: string, length: number) => {
   const [type,] = useSettings();
-  const [state, updateState] = useState<WordListState>({state: "Loading"});
+  const [state, updateState] = useState<WordListState>({state: "Init"});
 
   useEffect(() => {
-    Dictionary(type)(firstLetter,length)
-    .then(x => updateState({state: "Loaded", result: new Set(x)}))
-    .catch(() => updateState({state: "Error"}))
+
+    if (startsWith.length>0) {
+      updateState({state: "Loading"})
+      Dictionary(type)(startsWith,length)
+      .then(x => updateState({state: "Loaded", result: new Set(x)}))
+      .catch(() => updateState({state: "Error"}))
+    }
   
-  }, [firstLetter, length, type])
+  }, [startsWith, length, type])
   
   return state
 }
