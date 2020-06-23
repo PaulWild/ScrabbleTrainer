@@ -76,7 +76,7 @@ const Rereference = () => {
             title={"Word Lists"}
             subheader={"Useful word lists"}
             action = {
-                <IconButton aria-label="settings" >
+                <IconButton aria-label="settings" onClick={() => history.push(Routes.Reference)}>
                 <ArrowForwardIcon />
                 </IconButton>
             }

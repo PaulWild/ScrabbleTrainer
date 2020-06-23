@@ -1,6 +1,5 @@
 import "./Dictionary.css"
 import { useSettings } from '../settings/SettingsProvider';
-import { ScrabbleLetter } from '../components/Tile';
 import { useState, useEffect } from "react";
 import Configuration from "../configuration";
 
