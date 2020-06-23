@@ -6,7 +6,7 @@ import Configuration from "../configuration";
 
 type AsyncLoad<T> =  { state: "Init"} | { state: "Loading"} | { state: "Loaded", result: T} | { state: "Error" }
 
-export type WordListState = AsyncLoad<Set<String>>
+export type WordListState = AsyncLoad<Set<string>>
 
 type WordCheckState = AsyncLoad<boolean>
 
@@ -44,7 +44,7 @@ export const useWordCheck = (): [AsyncLoad<Boolean>, (x: string[]) => void] => {
     if (!words) {
       return {state: "Error"};
     }
-    
+
     updateState({state: "Loading"})
     const wordQuery = words.join('&word=');
     //fetch(`http://localhost:7071/api/wordcheck?dict=${type}&word=${wordQuery}`)

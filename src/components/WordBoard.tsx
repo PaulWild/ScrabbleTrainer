@@ -67,6 +67,7 @@ const WordBoard = (props: WordBoardProps) => {
 
   useEffect(() => { 
   
+    if (validWords.state === "Loaded") {
     let l = [[firstLetter as ScrabbleLetter]]
     for (let i = 1; i < props.numberOfLetters; i++) {
       l = l.flatMap(x => allLetters.map(y => [...x, y]))
@@ -86,16 +87,19 @@ const WordBoard = (props: WordBoardProps) => {
       }
       return a;
     }
+  
+    const tmp = [...validWords.result]
+    const correct = shuffle(tmp).slice(0, 5).sort();
 
-    l = shuffle(l).slice(0, 75).sort();
+    l = shuffle(l).slice(0, 30).sort();
     const w = l.map(x => x.join(''));
 
     setLetters(l);
-    setWords(new Set(w));
+    setWords(new Set(w.concat(correct)));
     setSelectedWords(new Set());
     setShowResults(false);
-    
-  }, [firstLetter, props.numberOfLetters])
+  }
+  }, [firstLetter, props.numberOfLetters, validWords])
 
   const numberCorrect = () => [...selectedWords].filter(x => (validWords.state === "Loaded") ? validWords.result.has(x) : false).length
   const numberIncorrect = () => [...selectedWords].filter(x => (validWords.state === "Loaded") ? !validWords.result.has(x) : false).length
