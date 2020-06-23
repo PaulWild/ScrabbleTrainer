@@ -33,8 +33,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
     for(var i =0; i<words.length; i++) {
         const word = words[i]
-        const result = await container.item(word.length.toString(), word[0]).read<Words>();
-        if (!(result.resource && result.resource.words.includes(word))) {
+        const result = await container.items.query(`SELECT ARRAY_CONTAINS(c.words, '${word}') as valid FROM c where c.id ='${word.length.toString()}' and c.firstLetter = '${word.charAt(0)}' and  ARRAY_CONTAINS(c.words, '${word}')`).fetchAll()
+        if (!(result.resources && result.resources[0].valid === true)) {
             context.res.headers["Cache-Control"] = "public, max-age=31536000, immutable, no-custom"
             context.res = {
                 body: false,

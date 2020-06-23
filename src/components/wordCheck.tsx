@@ -69,13 +69,23 @@ export const WordCheck = () => {
     };
 
 
+    const pushValueToList = () => {
+      if (value) {
+        const v = Array.from(values)
+        v.push(value.toUpperCase())
+        setValues(v);
+        setValue('');
+      }    
+    }
     const onFormSubmit = (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       event.preventDefault();
 
-      const v = Array.from(values)
-      v.push(value.toUpperCase())
-      setValues(v);
-      setValue('');
+      pushValueToList()
+    }
+
+    const onCheckWords = () => {
+      pushValueToList()
+      checkWords(values)
     }
 
 
@@ -113,8 +123,8 @@ export const WordCheck = () => {
         </FormControl>
         <div>
         {values.map((l, idx) => 
-          <div className={classes.word}>
-            <Word key={idx} letters={l.split('').map(x => x as ScrabbleLetter)} highlight='none' />
+          <div key={idx} className={classes.word}>
+            <Word  letters={l.split('').map(x => x as ScrabbleLetter)} highlight='none' />
           </div>)} 
           </div>
             <div>
@@ -129,7 +139,7 @@ export const WordCheck = () => {
 </Avatar>
 }
         </div> 
-        : <Button variant="outlined" color="primary" onClick={() => checkWords(values)} startIcon={<DoneAllIcon />}>
+        : <Button variant="outlined" color="primary" onClick={onCheckWords} startIcon={<DoneAllIcon />}>
               Check
             </Button>    
 }

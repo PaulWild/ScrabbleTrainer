@@ -44,7 +44,8 @@ export const useWordCheck = (): [AsyncLoad<Boolean>, (x: string[]) => void] => {
     if (!words) {
       return {state: "Error"};
     }
-
+    
+    updateState({state: "Loading"})
     const wordQuery = words.join('&word=');
     //fetch(`http://localhost:7071/api/wordcheck?dict=${type}&word=${wordQuery}`)
     fetch(`${Configuration.ApiHost}/api/wordcheck?dict=${type}&word=${wordQuery}`)
