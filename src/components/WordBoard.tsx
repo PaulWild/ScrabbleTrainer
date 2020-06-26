@@ -56,11 +56,12 @@ const useStyles = makeStyles((theme) => ({
   },  
 }));
 
+
+
 const WordBoard = (props: WordBoardProps) => {
 
   const firstLetter = props.match.params.letter.toUpperCase(); //regex doesn't seem to work
-  const [letters, setLetters] = useState<ScrabbleLetter[][]>([[firstLetter as ScrabbleLetter]])
-  const [words, setWords] = useState<Set<string>>(new Set<string>())
+  const [letters, setLetters] = useState<Set<string>>(new Set(firstLetter))
   const [selectedWords, setSelectedWords] = useState<Set<string>>(new Set<string>())
   const [showResults, setShowResults] = useState<boolean>(false);
   const validWords = useWordList(firstLetter, props.numberOfLetters)
@@ -94,8 +95,7 @@ const WordBoard = (props: WordBoardProps) => {
     l = shuffle(l).slice(0, 30).sort();
     const w = l.map(x => x.join(''));
 
-    setLetters(l);
-    setWords(new Set(w.concat(correct)));
+    setLetters(new Set(w.concat(correct)));
     setSelectedWords(new Set());
     setShowResults(false);
   }
@@ -103,7 +103,7 @@ const WordBoard = (props: WordBoardProps) => {
 
   const numberCorrect = () => [...selectedWords].filter(x => (validWords.state === "Loaded") ? validWords.result.has(x) : false).length
   const numberIncorrect = () => [...selectedWords].filter(x => (validWords.state === "Loaded") ? !validWords.result.has(x) : false).length
-  const totelCorrectWords = () => [...words].filter(x => (validWords.state === "Loaded") ? validWords.result.has(x) : false).length
+  const totelCorrectWords = () => [...letters].filter(x => (validWords.state === "Loaded") ? validWords.result.has(x) : false).length
   const classes = useStyles();
 
   const wording = () => {
@@ -150,9 +150,9 @@ const WordBoard = (props: WordBoardProps) => {
       />
       <CardContent>
         <div className="Board">
-          {letters.map((l, idx) => 
-          <div onClick={() => selectedWordsCallBack(l.join(''))} className={classes.words}>
-            <Word key={idx} letters={l} highlight={selectedWords.has(l.join('')) ? 'selected' : 'none'} />
+          {[...letters].sort().map((l, idx) => 
+          <div onClick={() => selectedWordsCallBack(l)} className={classes.words}>
+            <Word key={idx} letters={l.split('').map(x => x as ScrabbleLetter)} highlight={selectedWords.has(l) ? 'selected' : 'none'} />
           </div>)}           
         </div>
         <div className={classes.controls} >

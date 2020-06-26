@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useReducer } from 'react'
 import { Card, CardHeader, Avatar, CardContent, makeStyles, FormControl, InputLabel, Input, InputAdornment, Backdrop, CircularProgress, Button, IconButton } from '@material-ui/core'
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import Word from './Word';
@@ -57,35 +57,61 @@ const useStyles = makeStyles((theme) => ({
       },
   }));
 
+  
+interface State {
+  value: string,
+  values: string[],
+  checkedValues: string[],
+}
+
+type Actions = {action: "SetValue", value: string} | { action: "UpdateValues" } | { action: "UpdateValueList"}
+
+const reducer = (state: State, action: Actions): State => {
+  switch (action.action) {
+    case 'SetValue':
+      return {
+        ...state,
+        value: action.value,
+      }
+    case 'UpdateValues':
+      return {
+        ...state,
+        value: '',
+        values: state.values.concat([state.value.toUpperCase()])
+      }
+    case 'UpdateValueList':
+        return {
+          ...state,
+          checkedValues: state.values 
+        }
+    default:
+      throw new Error();
+  }
+}
+
 export const WordCheck = () => {
     const classes = useStyles();
-    const [value, setValue] = React.useState('');
-    const [values, setValues] = React.useState<string[]>([])
-    const [state, checkWords] = useWordCheck();
+
+    const [value, dispatch] = useReducer(reducer, {value: '', values: [], checkedValues: [] })
+    const state = useWordCheck(value.checkedValues);
+
 
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValue(event.target.value);
+      dispatch({action: "SetValue", value: event.target.value});
     };
 
 
-    const pushValueToList = () => {
-      if (value) {
-        const v = Array.from(values)
-        v.push(value.toUpperCase())
-        setValues(v);
-        setValue('');
-      }    
-    }
     const onFormSubmit = (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       event.preventDefault();
 
-      pushValueToList()
+      dispatch({action: "UpdateValues"});
     }
 
+
     const onCheckWords = () => {
-      pushValueToList()
-      checkWords(values)
+      dispatch({action: "UpdateValues"});
+      dispatch({action: "UpdateValueList"});
     }
 
 
@@ -111,7 +137,7 @@ export const WordCheck = () => {
             <Input        
             id="input-word"
             onChange={handleChange}
-            value={value}
+            value={value.value}
             endAdornment={
                 <InputAdornment  position="end" className="Clickable">
                                   <IconButton aria-label="settings"  onClick={onFormSubmit}>
@@ -122,7 +148,7 @@ export const WordCheck = () => {
             />
         </FormControl>
         <div>
-        {values.map((l, idx) => 
+        {value.values.map((l, idx) => 
           <div key={idx} className={classes.word}>
             <Word  letters={l.split('').map(x => x as ScrabbleLetter)} highlight='none' />
           </div>)} 

@@ -35,14 +35,15 @@ export const useWordList = (startsWith: string, length: number) => {
   return state
 }
 
-export const useWordCheck = (): [AsyncLoad<Boolean>, (x: string[]) => void] => {
+export const useWordCheck = (words: string[]): AsyncLoad<Boolean> => {
   const [type,] = useSettings();
   const [state, updateState] = useState<WordCheckState>({state: "Init"});
 
-  const checkWords = (words: string[]) => {
+  useEffect(() => {
 
-    if (!words) {
-      return {state: "Error"};
+    if (!words || words.length === 0) {
+      updateState({state: "Init"});
+      return;
     }
 
     updateState({state: "Loading"})
@@ -52,8 +53,8 @@ export const useWordCheck = (): [AsyncLoad<Boolean>, (x: string[]) => void] => {
       .then(x => x.text())
       .then(x => updateState({state: "Loaded", result: x === "True"}))
       .catch(() => updateState({state: "Error"}))  
-  }
+  },[words, type]);
 
   
-  return [state, checkWords]
+  return state
 }
