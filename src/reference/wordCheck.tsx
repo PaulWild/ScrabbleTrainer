@@ -1,15 +1,15 @@
 import React, { useReducer } from 'react'
 import {  Avatar,  FormControl, InputLabel, Input, InputAdornment, Button, IconButton, makeStyles } from '@material-ui/core'
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
-import Word from './Word';
-import { ScrabbleLetter } from './Tile';
-import { useWordCheck } from '../dictionaries/dictionaryProvider';
+import Word from '../components/Word';
+import { ScrabbleLetter } from '../components/Tile';
+import { useWordCheck } from '../contextProviders/dictionaryProvider';
 import AddIcon from '@material-ui/icons/Add';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
-import ScrabbleCard from './scrabbleCard';
-import LoadingBackdrop from './loadingBackdrop';
+import ScrabbleCard from '../components/scrabbleCard';
+import LoadingBackdrop from '../components/loadingBackdrop';
 
 const useStyles = makeStyles((theme) => ({
     resultFoo: {

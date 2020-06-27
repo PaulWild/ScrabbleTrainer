@@ -2,12 +2,12 @@ import React from 'react'
 import { makeStyles, FormControl, InputLabel, Input, InputAdornment, IconButton } from '@material-ui/core'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
-import Word from './Word';
-import { ScrabbleLetter } from './Tile';
-import { useSettings } from '../settings/SettingsProvider';
+import Word from '../components/Word';
+import { ScrabbleLetter } from '../components/Tile';
+import { useSettings } from '../contextProviders/SettingsProvider';
 import Configuration from '../configuration';
-import ScrabbleCard from './scrabbleCard';
-import LoadingBackdrop from './loadingBackdrop';
+import ScrabbleCard from '../components/scrabbleCard';
+import LoadingBackdrop from '../components/loadingBackdrop';
 
 const useStyles = makeStyles((theme) => ({
     word: {

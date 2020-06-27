@@ -4,7 +4,7 @@ import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { useHistory } from 'react-router-dom';
 import { Routes } from '../App';
-import ScrabbleCard from './scrabbleCard';
+import ScrabbleCard from '../components/scrabbleCard';
 
 const useStyles = makeStyles((theme) => ({
     root: {

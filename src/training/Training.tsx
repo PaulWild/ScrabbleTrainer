@@ -1,9 +1,9 @@
 import React from 'react'
 import { makeStyles, Typography, Container } from '@material-ui/core'
-import { allLetters, Routes } from './App';
-import Tile from './components/Tile';
+import { allLetters, Routes } from '../App';
+import Tile from '../components/Tile';
 import { useHistory } from 'react-router-dom';
-import ScrabbleCard from './components/scrabbleCard';
+import ScrabbleCard from '../components/scrabbleCard';
 
 const useStyles = makeStyles((theme) => ({
   root: {

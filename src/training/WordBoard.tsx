@@ -1,15 +1,15 @@
-import { ScrabbleLetter } from './Tile';
+import { ScrabbleLetter } from '../components/Tile';
 import React, { useEffect, useState } from 'react';
-import Word from './Word';
+import Word from '../components/Word';
 import { Button, makeStyles, Fade } from '@material-ui/core';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import { RouteComponentProps } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import { useWordList } from '../dictionaries/dictionaryProvider';
+import { useWordList } from '../contextProviders/dictionaryProvider';
 import { allLetters } from '../App';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
-import LoadingBackdrop from './loadingBackdrop';
-import ScrabbleCard from './scrabbleCard';
+import LoadingBackdrop from '../components/loadingBackdrop';
+import ScrabbleCard from '../components/scrabbleCard';
 
 interface WordBoardProps extends RouteComponentProps<IMatchParams> {
   numberOfLetters: number

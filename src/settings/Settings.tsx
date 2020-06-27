@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormControl, Select, MenuItem } from '@material-ui/core'
 import SettingsIcon from '@material-ui/icons/Settings';
-import { useSettings, DictionaryType } from './SettingsProvider';
+import { useSettings, DictionaryType } from '../contextProviders/SettingsProvider';
 import ScrabbleCard from './../components/scrabbleCard';
 
 const Settings = () => {

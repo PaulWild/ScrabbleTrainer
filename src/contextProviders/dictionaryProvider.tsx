@@ -1,4 +1,4 @@
-import { useSettings } from '../settings/SettingsProvider';
+import { useSettings } from './SettingsProvider';
 import { useState, useEffect } from "react";
 import Configuration from "../configuration";
 

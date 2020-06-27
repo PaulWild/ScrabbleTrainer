@@ -1,11 +1,11 @@
 import React  from 'react'
 import { makeStyles, FormControl, InputLabel, Select, MenuItem, TextField } from '@material-ui/core'
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
-import Word from './Word';
-import { ScrabbleLetter } from './Tile';
-import {  useWordList } from '../dictionaries/dictionaryProvider';
-import LoadingBackdrop from './loadingBackdrop';
-import ScrabbleCard from './scrabbleCard';
+import Word from '../components/Word';
+import { ScrabbleLetter } from '../components/Tile';
+import {  useWordList } from '../contextProviders/dictionaryProvider';
+import LoadingBackdrop from '../components/loadingBackdrop';
+import ScrabbleCard from '../components/scrabbleCard';
 
 
 const useStyles = makeStyles((theme) => ({

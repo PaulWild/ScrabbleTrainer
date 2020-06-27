@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import WordBoard from './components/WordBoard';
+import WordBoard from './training/WordBoard';
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,17 +9,17 @@ import {
 import  { ScrabbleLetter } from './components/Tile';
 import Header from './components/Header';
 import { ThemeProvider, makeStyles, Theme, createStyles, Toolbar } from '@material-ui/core';
-import theme from "./Theme/theme"
+import theme from "./theme"
 import {SideDrawer} from './components/drawer';
 import { Home } from './Home';
-import { SettingsProvider } from './settings/SettingsProvider';
+import { SettingsProvider } from './contextProviders/SettingsProvider';
 import Settings from './settings/Settings';
-import { Training } from './Training';
-import { Anagram } from './components/anagram';
+import { Training } from './training/Training';
+import { Anagram } from './reference/anagram';
 import { NavControlProvder } from './navbar/navbar';
-import { WordCheck } from './components/wordCheck';
-import Rereference from './components/Reference';
-import { WordList } from './components/wordLists';
+import { WordCheck } from './reference/wordCheck';
+import Rereference from './reference/Reference';
+import { WordList } from './reference/wordLists';
 
 export const allLetters: ScrabbleLetter[] = [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
