@@ -1,4 +1,3 @@
-import "./Dictionary.css"
 import { useSettings } from '../settings/SettingsProvider';
 import { useState, useEffect } from "react";
 import Configuration from "../configuration";
@@ -48,7 +47,6 @@ export const useWordCheck = (words: string[]): AsyncLoad<Boolean> => {
 
     updateState({state: "Loading"})
     const wordQuery = words.join('&word=');
-    //fetch(`http://localhost:7071/api/wordcheck?dict=${type}&word=${wordQuery}`)
     fetch(`${Configuration.ApiHost}/api/wordcheck?dict=${type}&word=${wordQuery}`)
       .then(x => x.text())
       .then(x => updateState({state: "Loaded", result: x === "True"}))

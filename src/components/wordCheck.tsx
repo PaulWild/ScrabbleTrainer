@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react'
-import { Card, CardHeader, Avatar, CardContent, makeStyles, FormControl, InputLabel, Input, InputAdornment, Backdrop, CircularProgress, Button, IconButton } from '@material-ui/core'
+import {  Avatar,  FormControl, InputLabel, Input, InputAdornment, Button, IconButton, makeStyles } from '@material-ui/core'
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import Word from './Word';
 import { ScrabbleLetter } from './Tile';
@@ -8,28 +8,18 @@ import AddIcon from '@material-ui/icons/Add';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
+import ScrabbleCard from './scrabbleCard';
+import LoadingBackdrop from './loadingBackdrop';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        flexFlow: 'row wrap',
-    },
     resultFoo: {
       marginTop: '1em',
       display: 'flex',
       flexFlow: 'row wrap',  
       justifyContent: 'center'
     },
-    card: {
-      maxWidth: '60em',
-      margin: '2em'
-    },
     word: {
       marginTop: '0.5em'
-    },
-    avatar: {
-      backgroundColor: theme.palette.secondary.main,
-      color: theme.palette.common.white,
     },
     correct: {
       backgroundColor: theme.palette.success.dark,
@@ -42,19 +32,7 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
       minWidth: 120,
-    },
-    cardHeader: {
-        display: 'flex',
-        flexFlow: 'column wrap',
-        textAlign: 'center'
-      },
-      margin: {
-        margin: theme.spacing(1),
-      },
-      backdrop: {
-        zIndex: theme.zIndex.drawer + 100,
-        color: '#fff',
-      },
+    }
   }));
 
   
@@ -114,25 +92,11 @@ export const WordCheck = () => {
       dispatch({action: "UpdateValueList"});
     }
 
-
-    return (
-    <>
-    <Backdrop className={classes.backdrop} open={state.state === "Loading"}>
-        <CircularProgress color="inherit" />
-    </Backdrop>
-    <div className={classes.root}>,
-        <Card className={classes.card}>
-        <CardHeader
-            avatar={
-            <Avatar aria-label="resources" className={classes.avatar}>
-                <ImportContactsIcon />
-            </Avatar>
-            }
-            title={"Word Check"}
-            subheader={"Check legality of multiple words"}
-        />
-        <CardContent>
-        <FormControl component="form" className={classes.margin} onSubmit={onFormSubmit}>
+    const title = "Word Check";
+    const subHeader = "Check legality of multiple words";
+    const avatar = <ImportContactsIcon />;
+    const content = <>
+      <FormControl component="form" onSubmit={onFormSubmit}>
             <InputLabel htmlFor="input-word-check" >Word</InputLabel>
             <Input        
             id="input-word"
@@ -170,9 +134,11 @@ export const WordCheck = () => {
             </Button>    
 }
           </div>
-          
-      </CardContent>
-    </Card>
-  </div>
-  </>)
+          </>
+
+    return (
+    <>
+      <LoadingBackdrop loading = {state.state === "Loading"} />  
+      <ScrabbleCard title={title} subheader={subHeader} avatar={avatar} content={content} />
+    </>)
 }

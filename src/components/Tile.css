@@ -5,7 +5,7 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
-
+    font-family: 'Roboto';
 
     flex-direction: row;
     margin: .07em;
@@ -48,7 +48,6 @@
 .Tile.Medium {
     font-size: x-large;
 }
-
 
 .Tile.Large {
     font-size: xx-large;

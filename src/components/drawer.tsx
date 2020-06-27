@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const SideDrawer: FunctionComponent =  ({ children }) => {
-  const width = useMediaQuery('(min-width:600px)');
+  const width = useMediaQuery('(min-width:740px)');
   const [open, toggleOpen] = useNavControl()
   const classes = useStyles(width)
   const [itemOpen, setItemOpen] = useState(false)

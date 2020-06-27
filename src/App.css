@@ -1,22 +1,3 @@
- .App {
-  display: flex;
-  flex:1;
-  flex-direction: column;
-  text-align: left;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 720px;
-  font-family: 'Roboto', sans-serif;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-a:link { color: "none"; text-decoration: none}
-
 .AllLetters {
   display: flex;
   flex-direction: row;
@@ -24,17 +5,6 @@ a:link { color: "none"; text-decoration: none}
   justify-content: center;
   cursor: pointer; 
 }
-
-.Clickable {
-  cursor: pointer;  
-}
-button {
-  margin: 1em;
-}
-
-.nomnomContainer {
-  margin: 0.5em
-} 
 
 .comingSoon::after {
   content: "Coming Soon!";

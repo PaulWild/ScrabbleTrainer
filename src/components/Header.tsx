@@ -3,7 +3,6 @@ import { Toolbar, AppBar, IconButton, Typography,  Theme } from '@material-ui/co
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import Tile from './Tile';
-import "./Header.css"
 import { useNavControl } from '../navbar/navbar';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -15,6 +14,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.palette.common.white,
     fontFamily: "'Caveat', cursive"
   },
+  tile: {
+    transform: "rotate(8deg)",
+    boxShadow: "none"
+  }
 }));
 
 
@@ -28,7 +31,7 @@ const Header = () => {
         { <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleOpen}>
                   <MenuIcon  />
         </IconButton> }
-        <Tile letter="S" selected={false} /><Typography variant="h4" component="h4" className={classes.title}>crabble Trainer</Typography> 
+        <Tile letter="S" selected={false} className={classes.tile} /><Typography variant="h4" component="h4" className={classes.title}>crabble Trainer</Typography> 
     </Toolbar>
   </AppBar>);
 }

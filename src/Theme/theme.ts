@@ -41,7 +41,9 @@ const fontHeader = {
   fontWeight: rawTheme.typography.fontWeightMedium,
 };
 
+
 const theme = {
+  
   ...rawTheme,
   palette: {
     ...rawTheme.palette,
@@ -49,6 +51,16 @@ const theme = {
       ...rawTheme.palette.background,
       default: rawTheme.palette.common.white,
       placeholder: grey[200],
+    },
+  },
+  props: {
+    ...rawTheme.props,
+    MuiButton: {
+      ...rawTheme.props?.MuiButton,
+      style: {
+        ...rawTheme.props?.MuiButton?.style,    
+        "margin": "1em"
+      },
     },
   },
   typography: {
@@ -99,7 +111,10 @@ const theme = {
       ...rawTheme.typography.body1,
       fontSize: 14,
     },
+    
+  
   },
+
 };
 
 export default theme;

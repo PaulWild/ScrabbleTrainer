@@ -1,14 +1,15 @@
 import { ScrabbleLetter } from './Tile';
 import React, { useEffect, useState } from 'react';
 import Word from './Word';
-import { Button, makeStyles, Fade, Card, CardHeader, Avatar,  CardContent, Backdrop, CircularProgress } from '@material-ui/core';
-import './WordBoard.css';
+import { Button, makeStyles, Fade } from '@material-ui/core';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import { RouteComponentProps } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { useWordList } from '../dictionaries/dictionaryProvider';
 import { allLetters } from '../App';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
+import LoadingBackdrop from './loadingBackdrop';
+import ScrabbleCard from './scrabbleCard';
 
 interface WordBoardProps extends RouteComponentProps<IMatchParams> {
   numberOfLetters: number
@@ -18,26 +19,12 @@ interface IMatchParams {
   letter: ScrabbleLetter
 }
 
-interface UpdateWordAction {
-  selected: "Selected" | "UnSelected"
-  word: string
-}
-
-interface State {
-  selected: Set<String>,
-  showResults: boolean,
-}
-
 const numberMap: { [key: number]: string } = {
   2: "Two",
   3: "Three"
 }
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: '60em',
-    margin: '2em'
-  },
   controls: {
     display: 'flex',
     flexDirection: 'row-reverse',
@@ -46,14 +33,12 @@ const useStyles = makeStyles((theme) => ({
   words: {
     cursor: "pointer"
   },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 100,
-    color: '#fff',
-  },
-  avatar: {
-    backgroundColor: theme.palette.secondary.main,
-    color: theme.palette.common.white,
-  },  
+  board: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    display: "flex",
+    justifyContent: "left",
+  }
 }));
 
 
@@ -118,6 +103,7 @@ const WordBoard = (props: WordBoardProps) => {
 
 
   }
+
   const selectedWordsCallBack = (word: string) => {
     if (showResults === true) {
       setShowResults(!showResults)
@@ -130,29 +116,16 @@ const WordBoard = (props: WordBoardProps) => {
     else {
       setSelectedWords(new Set(selectedWords.add(word)))
     }
-    
   }
+    
 
-  return (
-    <>{ validWords.state === "Loading" ?
-    <Backdrop className={classes.backdrop} open={true}>
-        <CircularProgress color="inherit" />
-    </Backdrop> :
-    <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="training" className={classes.avatar}>
-            <FitnessCenterIcon />
-          </Avatar>
-        }
-        title={`${numberMap[props.numberOfLetters]} letter words`}
-        subheader={wording()}
-      />
-      <CardContent>
-        <div className="Board">
+    const avatar = <FitnessCenterIcon />
+    const title = `${numberMap[props.numberOfLetters]} letter words`
+    const content = <>
+       <div className= {classes.board}>
           {[...letters].sort().map((l, idx) => 
-          <div onClick={() => selectedWordsCallBack(l)} className={classes.words}>
-            <Word key={idx} letters={l.split('').map(x => x as ScrabbleLetter)} highlight={selectedWords.has(l) ? 'selected' : 'none'} />
+          <div key={idx} onClick={() => selectedWordsCallBack(l)} className={classes.words}>
+            <Word  letters={l.split('').map(x => x as ScrabbleLetter)} highlight={selectedWords.has(l) ? 'selected' : 'none'} />
           </div>)}           
         </div>
         <div className={classes.controls} >
@@ -195,8 +168,12 @@ const WordBoard = (props: WordBoardProps) => {
 
         </div>
         }
-      </CardContent>
-    </Card>}
+        </>
+
+  return (
+    <>
+    <LoadingBackdrop loading = {validWords.state === "Loading"} />  
+    <ScrabbleCard title={title} subheader={wording()} avatar={avatar} content={content} />
     </>)
 }
 
