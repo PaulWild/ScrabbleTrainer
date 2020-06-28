@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container, makeStyles, IconButton } from '@material-ui/core'
-import ImportContactsIcon from '@material-ui/icons/ImportContacts';
+import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { useHistory } from 'react-router-dom';
 import { Routes } from '../../App';
@@ -36,7 +36,7 @@ const StemList = () => {
             {stems.map((stem, idx) => 
             <ScrabbleCard key={idx} title = {titleContent(stem) as any}
             content =  {<LetterGrid onClick={(l) => () => history.push(Routes.Stem(stem + (l as string)))} size="Small" includeBlank={true}/>}
-            avatar = {<ImportContactsIcon />}
+            avatar = {<FitnessCenterIcon />}
             disableTypography = { true }
             action = {
                 <IconButton aria-label="settings"  onClick={() => history.push(Routes.Stem(stem + ('_')))}>
