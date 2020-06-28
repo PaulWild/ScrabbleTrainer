@@ -71,7 +71,6 @@ export const Anagram = () => {
 
     return (
     <>
-      <LoadingBackdrop loading = {loading === "LOADING"} />  
-      <ScrabbleCard title={title} subheader={subHeader} avatar={avatar} content={content} />  
+      <LoadingBackdrop loading = {loading === "LOADING"} child={ <ScrabbleCard  title={title} subheader={subHeader} avatar={avatar} content={content} /> } />
     </>)
 }

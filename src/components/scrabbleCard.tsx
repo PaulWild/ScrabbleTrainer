@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
     return (
         <>
-        <div className={classes.root}>,
+        <div className={classes.root}>
             <Card className={classes.card}>
             <CardHeader {...extendedProps} />
             <CardContent className={classes.margin}>

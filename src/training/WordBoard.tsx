@@ -171,10 +171,10 @@ const WordBoard = (props: WordBoardProps) => {
         </>
 
   return (
-    <>
-    <LoadingBackdrop loading = {validWords.state === "Loading"} />  
-    <ScrabbleCard title={title} subheader={wording()} avatar={avatar} content={content} />
-    </>)
+    <LoadingBackdrop 
+      loading = { validWords.state === "Loading" } 
+      child = { <ScrabbleCard title={title} subheader={wording()} avatar={avatar} content={content} /> } 
+    />)
 }
 
 export default WordBoard

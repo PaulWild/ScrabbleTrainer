@@ -1,8 +1,7 @@
 import React, { useState, useEffect, FunctionComponent } from "react";
-import { Drawer, Toolbar, List, ListItem, ListItemIcon, ListItemText, makeStyles, Theme, createStyles, useMediaQuery, Container, Collapse, } from "@material-ui/core";
+import { Drawer, Toolbar, List, ListItem, ListItemIcon, ListItemText, makeStyles, Theme, createStyles, useMediaQuery,  Collapse, } from "@material-ui/core";
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
-import { allLetters, Routes } from "../App";
-import Tile from "./Tile";
+import { Routes } from "../App";
 import { useHistory } from "react-router-dom";
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -11,6 +10,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { useLocation } from 'react-router-dom';
 import { useNavControl } from "../navbar/navbar";
+import LetterGrid from "./letterGrid";
 
 const drawerWidth = 280;
 
@@ -95,24 +95,14 @@ export const SideDrawer: FunctionComponent =  ({ children }) => {
         {itemOpen ? <ExpandLess className={classes.listFoo} /> : <ExpandMore className={classes.listFoo} />}
       </ListItem>
       <Collapse in={itemOpen} timeout="auto" unmountOnExit>
-        <Container>
-          <div className="AllLetters">
-            {allLetters.map((l, idx) =>
-              <div onClick={() => history.push(Routes.TwoLetterWords(l))} key={idx}><Tile letter={l} selected={false} size="Small" /></div>
-            )}
-          </div></Container>
+        <LetterGrid onClick={(l) => () => history.push(Routes.TwoLetterWords(l))} size="Small" />
       </Collapse>
       <ListItem button onClick={(e) => childNavEvent(e, () => setItemOpen2(!itemOpen2))}>
         <ListItemText secondary="3-Letter Words" color="textSecondary" />
         {itemOpen2 ? <ExpandLess className={classes.listFoo} /> : <ExpandMore className={classes.listFoo} />}
       </ListItem>
       <Collapse in={itemOpen2} timeout="auto" unmountOnExit>
-        <Container>
-          <div className="AllLetters">
-            {allLetters.map((l, idx) =>
-              <div onClick={() => history.push(Routes.ThreeLetterWords(l))} key={idx}><Tile letter={l} selected={false} size="Small" /></div>
-            )}
-          </div></Container>
+        <LetterGrid onClick={(l) => () => history.push(Routes.ThreeLetterWords(l))} size="Small" />
       </Collapse>
       <List>
         <ListItem className={classes.clickable} onClick={() => history.push(Routes.Reference)}>

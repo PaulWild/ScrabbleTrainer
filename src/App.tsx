@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import WordBoard from './training/WordBoard';
 import {
   BrowserRouter as Router,

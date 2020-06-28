@@ -83,7 +83,6 @@ export const WordList = () => {
 
     return (
       <>
-        <LoadingBackdrop loading = {validWords.state === "Loading"} />  
-        <ScrabbleCard title={title} subheader={subHeader} avatar={avatar} content={content} />
+        <LoadingBackdrop loading = {validWords.state === "Loading"} child = { <ScrabbleCard title={title} subheader={subHeader} avatar={avatar} content={content} /> } />
       </>)
 }

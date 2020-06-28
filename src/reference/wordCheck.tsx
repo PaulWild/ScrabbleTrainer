@@ -138,7 +138,6 @@ export const WordCheck = () => {
 
     return (
     <>
-      <LoadingBackdrop loading = {state.state === "Loading"} />  
-      <ScrabbleCard title={title} subheader={subHeader} avatar={avatar} content={content} />
+      <LoadingBackdrop loading = {state.state === "Loading"} child ={ <ScrabbleCard title={title} subheader={subHeader} avatar={avatar} content={content} /> } />
     </>)
 }
