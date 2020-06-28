@@ -9,8 +9,7 @@ import ScrabbleCard from '../components/scrabbleCard';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(30em, 1fr));",
-        margin: "1em",
+        gridTemplateColumns: "repeat(auto-fill, minmax(15em, 1fr));",
       }
     })
 )

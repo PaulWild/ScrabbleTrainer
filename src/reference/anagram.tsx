@@ -4,10 +4,9 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import Word from '../components/Word';
 import { ScrabbleLetter } from '../components/Tile';
-import { useSettings } from '../contextProviders/SettingsProvider';
-import Configuration from '../configuration';
 import ScrabbleCard from '../components/scrabbleCard';
 import LoadingBackdrop from '../components/loadingBackdrop';
+import { useAnagramProvider } from '../contextProviders/dictionaryProvider';
 
 const useStyles = makeStyles((theme) => ({
     word: {
@@ -22,26 +21,17 @@ const useStyles = makeStyles((theme) => ({
 export const Anagram = () => {
     const classes = useStyles();
     const [value, setValue] = React.useState('');
-    const [loading, setLoading] = React.useState<"INIT"|"LOADING"|"LOADED">("INIT");
-    const [results, setResults] = React.useState<string[]>([]);
-    const [dictionaryType, ] = useSettings();
-
+    const [anagrams, searchAnagram] = useAnagramProvider();
+    
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setValue(event.target.value);
     };
 
-    const noResults = () => loading === "LOADED" && results.length === 0
+    const noResults = () => anagrams.state === "Loaded" && anagrams.state.length === 0
 
     const onFormSubmit = (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       event.preventDefault();
-
-      setLoading("LOADING")
-
-      //naughty
-      fetch(`${Configuration.ApiHost}/api/anagram?word=${value}&dict=${dictionaryType}`)
-        .then(x => x.json())
-        .then(x => setResults(x))
-        .finally(() => setLoading("LOADED"))
+      searchAnagram(value);
     }
 
     const title = "Anagrams";
@@ -64,13 +54,13 @@ export const Anagram = () => {
         }
         />
     </FormControl>
-    {results.map((l, idx) => 
+    {anagrams.state === "Loaded" && anagrams.result.map((l, idx) => 
       <div className={classes.word}>
-        <Word key={idx} letters={l.split('').map(x => x as ScrabbleLetter)} highlight='none' size={results[0].length > 8 ? 'Smallest': 'Small'}/>
+        <Word key={idx} letters={l.split('').map(x => x as ScrabbleLetter)} highlight='none' size={anagrams.result[0].length > 8 ? 'Smallest': 'Small'}/>
       </div>)} </>      
 
     return (
     <>
-      <LoadingBackdrop loading = {loading === "LOADING"} child={ <ScrabbleCard  title={title} subheader={subHeader} avatar={avatar} content={content} /> } />
+      <LoadingBackdrop loading = {anagrams.state === "Loading"} child={ <ScrabbleCard  title={title} subheader={subHeader} avatar={avatar} content={content} /> } />
     </>)
 }

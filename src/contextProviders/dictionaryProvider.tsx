@@ -34,6 +34,26 @@ export const useWordList = (startsWith: string, length: number) => {
   return state
 }
 
+export const useAnagramProvider = (): [AsyncLoad<string[]>, (x: string) => void] => {
+  const [type,] = useSettings();
+  const [value, toSearch] = useState("");
+  const [state, updateState] = useState<AsyncLoad<string[]>>({state: "Init"});
+
+  useEffect(() => {
+
+    if (value && value.length> 0) {
+      updateState({state: "Loading"})
+      fetch(`${Configuration.ApiHost}/api/anagram?word=${value}&dict=${type}`)
+      .then(x => x.json())
+      .then(x => updateState({state: "Loaded", result: x}))
+      .catch(() => updateState({state: "Error"}))
+    }
+  
+  }, [value, type])
+  
+  return [state, toSearch]
+}
+
 export const useWordCheck = (words: string[]): AsyncLoad<Boolean> => {
   const [type,] = useSettings();
   const [state, updateState] = useState<WordCheckState>({state: "Init"});

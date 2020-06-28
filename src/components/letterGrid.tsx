@@ -18,16 +18,18 @@ type Size = "Small" | "Medium"
 interface LetterGridProps {
     onClick: (letter: ScrabbleLetter) => () => void
     size?: Size
+    includeBlank?: boolean
 }
 
-const LetterGrid = ({onClick, size = 'Medium'}: LetterGridProps) => {
+const LetterGrid = ({onClick, size = 'Medium', includeBlank = false}: LetterGridProps) => {
     const classes = useStyles()
 
-
+    const letters = includeBlank ? allLetters.concat(['_']) : allLetters
+    
     return(
     <Container>
       <div className={classes.root}>
-        {allLetters.map((l, idx) =>
+        {letters.map((l, idx) =>
           <div onClick={onClick(l)} key={idx}><Tile letter={l} selected={false} size= {size} /></div>
         )}
       </div>

@@ -101,6 +101,9 @@ export const SideDrawer: FunctionComponent =  ({ children }) => {
         <ListItemText secondary="3-Letter Words" color="textSecondary" />
         {itemOpen2 ? <ExpandLess className={classes.listFoo} /> : <ExpandMore className={classes.listFoo} />}
       </ListItem>
+      <ListItem className={classes.clickable} onClick={() => history.push(Routes.StemList)}>
+          <ListItemText secondary={"Bingo Stems"}> </ListItemText>
+        </ListItem>
       <Collapse in={itemOpen2} timeout="auto" unmountOnExit>
         <LetterGrid onClick={(l) => () => history.push(Routes.ThreeLetterWords(l))} size="Small" />
       </Collapse>
