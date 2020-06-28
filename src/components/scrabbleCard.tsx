@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
       margin: {
         margin: theme.spacing(1),
       },
+      action: {
+        margin: '0'
+      }
   }));
 
   interface Props extends CardHeaderProps {
@@ -34,14 +37,17 @@ const useStyles = makeStyles((theme) => ({
 
     const extendedProps = {
       ...props,
-      avatar: <Avatar aria-label="avatar" className={classes.avatar}> {props.avatar} </Avatar>
+      avatar: <Avatar aria-label="avatar" className={classes.avatar}> {props.avatar} </Avatar>,
+
     }
 
     return (
         <>
         <div className={classes.root}>
             <Card className={classes.card}>
-            <CardHeader {...extendedProps} />
+            <CardHeader {...extendedProps} classes = {{
+              action: classes.action
+            }} />
             <CardContent className={classes.margin}>
                 {props.content && props.content}
           </CardContent>

@@ -1,5 +1,5 @@
-import React, { useReducer, useEffect } from 'react'
-import {  FormControl, InputLabel, Input, InputAdornment, Button, IconButton, makeStyles, Fade } from '@material-ui/core'
+import React, { useReducer, useEffect, useState } from 'react'
+import {  FormControl, InputLabel, Input, InputAdornment, Button, IconButton, makeStyles, Fade, Tooltip } from '@material-ui/core'
 import Word from '../../components/Word';
 import { ScrabbleLetter } from '../../components/Tile';
 import { useAnagramProvider } from '../../contextProviders/dictionaryProvider';
@@ -10,6 +10,7 @@ import LoadingBackdrop from '../../components/loadingBackdrop';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import { RouteComponentProps } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 
 const useStyles = makeStyles((theme) => ({
     resultFoo: {
@@ -91,10 +92,12 @@ interface IMatchParams {
   word: string
 }
 export const Stems = (props: StemProps) => {
-    const classes = useStyles();
+    const classes = useStyles();  
+    
     const word = props.match.params.word.toUpperCase();
     const [value, dispatch] = useReducer(reducer, {value: '', values: [], showResults: false })
     const [anagrams, searchAnagram] = useAnagramProvider();
+    const [showWords, setShowWords] = useState(false);
   
     useEffect(() => {
         searchAnagram(word)
@@ -139,7 +142,15 @@ export const Stems = (props: StemProps) => {
     const subHeader = wording();
     const avatar = <FitnessCenterIcon />;
     const content = <>
-      <Word  letters={word.toUpperCase().split('').map(x => x as ScrabbleLetter)} highlight={'none'} />
+    { showWords ? 
+          <div className={classes.words}>
+          {anagrams.state === "Loaded" && anagrams.result.map((l, idx) => 
+            <div key={idx} className={classes.word}>
+              <Word  letters={l.split('').map(x => x as ScrabbleLetter)} highlight='none' size="Small" />
+            </div>)} 
+            </div>            
+    : <>  
+    <Word  letters={word.toUpperCase().split('').map(x => x as ScrabbleLetter)} highlight={'none'} />
       <FormControl className = {classes.formControl} component="form" onSubmit={onFormSubmit}>
             <InputLabel htmlFor="input-word-check" >Word</InputLabel>
             <Input        
@@ -199,11 +210,28 @@ export const Stems = (props: StemProps) => {
             </Fade>
           }
 
-        </div>}
+        </div>} </>
+    }
           </>
+
+
+    const contents = () => {
+      return totalCorrectWords > 0 ? content : <></>
+    }
 
     return (
     <>
-      <LoadingBackdrop loading = {anagrams.state === "Loading"} child ={ <ScrabbleCard title={title} subheader={subHeader} avatar={avatar} content={content} /> } />
+      <LoadingBackdrop loading = {anagrams.state === "Loading"} child =
+        { <ScrabbleCard 
+            title={title} 
+            subheader={subHeader} 
+            avatar={avatar} 
+            content={contents()}
+            action = {
+              <IconButton aria-label="settings"  onClick={() => setShowWords(!showWords)}>
+              { showWords ? <Tooltip title="Train"><FitnessCenterIcon /></Tooltip> :  <Tooltip title="Show Anargrams"><ImportContactsIcon /></Tooltip> }
+              </IconButton>
+          }/> }
+          /> 
     </>)
 }
