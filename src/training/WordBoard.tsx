@@ -1,16 +1,17 @@
 import { ScrabbleLetter } from '../components/Tile';
 import React, { useEffect, useState } from 'react';
 import Word from '../components/Word';
-import { makeStyles, Fade, IconButton } from '@material-ui/core';
+import { makeStyles, IconButton } from '@material-ui/core';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
-import { Alert, AlertTitle } from '@material-ui/lab';
 import { useWordList } from '../contextProviders/dictionaryProvider';
 import { allLetters, Routes } from '../App';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import LoadingBackdrop from '../components/loadingBackdrop';
 import ScrabbleCard from '../components/scrabbleCard';
 import LetterPagination from '../components/letterPagination';
+import Results from '../components/results';
+
 interface WordBoardProps extends RouteComponentProps<IMatchParams> {
   numberOfLetters: number
 }
@@ -30,9 +31,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row-reverse',
 
   },
-  results: {
-    marginTop: '1.5em'
-  },
+
   words: {
     cursor: "pointer"
   },
@@ -95,20 +94,20 @@ const WordBoard = (props: WordBoardProps) => {
   }
   }, [firstLetter, props.numberOfLetters, validWords])
 
-  const numberCorrect = () => [...selectedWords].filter(x => (validWords.state === "Loaded") ? validWords.result.has(x) : false).length
-  const numberIncorrect = () => [...selectedWords].filter(x => (validWords.state === "Loaded") ? !validWords.result.has(x) : false).length
-  const totelCorrectWords = () => [...letters].filter(x => (validWords.state === "Loaded") ? validWords.result.has(x) : false).length
+  const numberCorrect = [...selectedWords].filter(x => (validWords.state === "Loaded") ? validWords.result.has(x) : false).length
+  const numberIncorrect = [...selectedWords].filter(x => (validWords.state === "Loaded") ? !validWords.result.has(x) : false).length
+  const totalCorrect =  [...letters].filter(x => (validWords.state === "Loaded") ? validWords.result.has(x) : false).length
   const classes = useStyles();
 
   const wording = () => {
-    const numberOfWords = totelCorrectWords();
+    const numberOfWords = totalCorrect;
     if (numberOfWords === 1) {
       return (<>Find the word that begins with the letter {firstLetter}</>)
     }
     if (numberOfWords === 0) {
       return (<>There are no {props.numberOfLetters} letter {firstLetter} words!</>)
     }
-    return <>Find {totelCorrectWords()} words that begin with the letter {firstLetter}</>
+    return <>Find {totalCorrect} words that begin with the letter {firstLetter}</>
 
 
   }
@@ -144,33 +143,7 @@ const WordBoard = (props: WordBoardProps) => {
          
         </div>
         <LetterPagination onClick={paginationAction} letter={firstLetter as ScrabbleLetter} includeSpace={true} />
-        {showResults && 
-        <div className={classes.results}>
-          {(numberIncorrect() > 0 || numberCorrect() < totelCorrectWords()) &&
-            <Fade in={true}>
-              <Alert variant="standard" severity="info">
-                <AlertTitle><strong>{numberCorrect()}</strong> out of <strong>{totelCorrectWords()}</strong> correct word{totelCorrectWords() === 1 ? "" : "s"}</AlertTitle>            
-              </Alert>
-            </Fade>
-          }
-          {numberIncorrect() > 0 &&
-            <Fade in={true}>
-              <Alert variant="standard" severity="error">
-                <AlertTitle><strong className={numberIncorrect() > 0 ? "Warn" : ""}>{numberIncorrect()}</strong> incorrect word{numberIncorrect() === 1 ? "" : "s"}</AlertTitle>
-              </Alert>
-            </Fade>
-          }
-          {(numberIncorrect() === 0 && numberCorrect() === totelCorrectWords()) &&
-            <Fade in={true}>
-              <Alert variant="standard" severity="success">
-                <AlertTitle> Correct!</AlertTitle>
-                   
-                </Alert>
-            </Fade>
-          }
-
-        </div>
-        }
+        <Results showResults={showResults} numberCorrectAnswers={totalCorrect}  correct={numberCorrect} incorrect={numberIncorrect} />
         </>
 
   return (

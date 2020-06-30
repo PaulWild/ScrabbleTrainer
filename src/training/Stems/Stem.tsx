@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect, useState } from 'react'
-import {  FormControl, InputLabel, Input, InputAdornment, IconButton, makeStyles, Fade, Tooltip } from '@material-ui/core'
+import {  FormControl, InputLabel, Input, InputAdornment, IconButton, makeStyles, Tooltip } from '@material-ui/core'
 import Word from '../../components/Word';
 import { ScrabbleLetter } from '../../components/Tile';
 import { useAnagramProvider } from '../../contextProviders/dictionaryProvider';
@@ -9,10 +9,10 @@ import ScrabbleCard from '../../components/scrabbleCard';
 import LoadingBackdrop from '../../components/loadingBackdrop';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
-import { Alert, AlertTitle } from '@material-ui/lab';
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import LetterPagination from '../../components/letterPagination';
 import { Routes } from '../../App';
+import Results from '../../components/results';
 
 const useStyles = makeStyles((theme) => ({
     results: {
@@ -143,8 +143,8 @@ export const Stems = (props: StemProps) => {
 
 
 
-    const numberCorrect = () => value.values.filter(x => (anagrams.state === "Loaded") ? anagrams.result.includes(x) : false).length
-    const numberIncorrect = () => value.values.filter(x => (anagrams.state === "Loaded") ? !anagrams.result.includes(x) : false).length
+    const numberCorrect =  value.values.filter(x => (anagrams.state === "Loaded") ? anagrams.result.includes(x) : false).length
+    const numberIncorrect = value.values.filter(x => (anagrams.state === "Loaded") ? !anagrams.result.includes(x) : false).length
     const totalCorrectWords =  ((anagrams.state === "Loaded") ? anagrams.result : []).length
 
     const wording = () => {
@@ -199,35 +199,9 @@ export const Stems = (props: StemProps) => {
           </IconButton>
         </div>
           <LetterPagination onClick={(l) => { history.push(Routes.Stem(stem, l))}} letter = {letter as ScrabbleLetter} includeSpace={true} />
-       
-          {value.showResults && 
-        <div className={classes.results}>
-          {(numberIncorrect() > 0 || numberCorrect() < totalCorrectWords) &&
-            <Fade in={true}>
-              <Alert variant="standard" severity="info">
-                <AlertTitle><strong>{numberCorrect()}</strong> out of <strong>{totalCorrectWords}</strong> correct word{totalCorrectWords === 1 ? "" : "s"}</AlertTitle>            
-              </Alert>
-            </Fade>
-          }
-          {numberIncorrect() > 0 &&
-            <Fade in={true}>
-              <Alert variant="standard" severity="error">
-                <AlertTitle><strong className={numberIncorrect() > 0 ? "Warn" : ""}>{numberIncorrect()}</strong> incorrect word{numberIncorrect() === 1 ? "" : "s"}</AlertTitle>
-              </Alert>
-            </Fade>
-          }
-          {(numberIncorrect() === 0 && numberCorrect() === totalCorrectWords) &&
-            <Fade in={true}>
-              <Alert variant="standard" severity="success">
-                <AlertTitle> All <strong>{numberCorrect()}</strong>  word{numberCorrect() === 1 ? "" : "s"} found!</AlertTitle>
-                   
-                </Alert>
-            </Fade>
-          }
-
-        </div>} </>
-    }         
-          </>
+          <Results showResults={value.showResults} numberCorrectAnswers={totalCorrectWords}  correct={numberCorrect} incorrect={numberIncorrect} /> </>
+    }      
+    </>
 
 
     const contents = () => {
