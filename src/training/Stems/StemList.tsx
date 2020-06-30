@@ -35,11 +35,11 @@ const StemList = () => {
         <Container className={classes.root}>
             {stems.map((stem, idx) => 
             <ScrabbleCard key={idx} title = {titleContent(stem) as any}
-            content =  {<LetterGrid onClick={(l) => () => history.push(Routes.Stem(stem + (l as string)))} size="Small" includeBlank={true}/>}
+            content =  {<LetterGrid onClick={(l) => () => history.push(Routes.Stem(stem, l as string))} size="Small" includeBlank={true}/>}
             avatar = {<FitnessCenterIcon />}
             disableTypography = { true }
             action = {
-                <IconButton aria-label="settings"  onClick={() => history.push(Routes.Stem(stem + ('_')))}>
+                <IconButton aria-label="settings"  onClick={() => history.push(Routes.Stem(stem, "_" as string))}>
                 <ArrowForwardIcon />
                 </IconButton>
             }/>)

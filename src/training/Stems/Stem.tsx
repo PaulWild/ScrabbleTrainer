@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect, useState } from 'react'
-import {  FormControl, InputLabel, Input, InputAdornment, Button, IconButton, makeStyles, Fade, Tooltip } from '@material-ui/core'
+import {  FormControl, InputLabel, Input, InputAdornment, IconButton, makeStyles, Fade, Tooltip } from '@material-ui/core'
 import Word from '../../components/Word';
 import { ScrabbleLetter } from '../../components/Tile';
 import { useAnagramProvider } from '../../contextProviders/dictionaryProvider';
@@ -8,13 +8,15 @@ import DoneAllIcon from '@material-ui/icons/DoneAll';
 import ScrabbleCard from '../../components/scrabbleCard';
 import LoadingBackdrop from '../../components/loadingBackdrop';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, useHistory } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
+import LetterPagination from '../../components/letterPagination';
+import { Routes } from '../../App';
 
 const useStyles = makeStyles((theme) => ({
-    resultFoo: {
-      marginTop: '1em',
+    results: {
+      marginTop: '1.5em',
       display: 'flex',
       flexFlow: 'column',  
       justifyContent: 'left'
@@ -27,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: 'left',
       display: 'flex',
       flexFlow: 'row wrap',     
+      marginBottom: '1.5em'
     },
     correct: {
       backgroundColor: theme.palette.success.dark,
@@ -42,8 +45,11 @@ const useStyles = makeStyles((theme) => ({
     },
     controls: {
       display: 'flex',
-      flexDirection: 'row-reverse',
-  
+      flexFlow: 'row wrap',   
+      justifyContent: 'flex-end'
+    },
+    button: {
+      position: "fixed"
     }
   }));
 
@@ -72,12 +78,7 @@ const reducer = (state: State, action: Actions): State => {
     case 'ShowResults':
         return {
           ...state,
-          showResults: true
-        }
-    case 'HideResults':
-        return {
-          ...state,
-          showResults: false
+          showResults: !state.showResults
         }
     default:
       throw new Error();
@@ -90,11 +91,15 @@ interface StemProps extends RouteComponentProps<IMatchParams> {
 
 interface IMatchParams {
   word: string
+  letter: string
 }
 export const Stems = (props: StemProps) => {
     const classes = useStyles();  
+    const history = useHistory();
     
-    const word = props.match.params.word.toUpperCase();
+    const letter = props.match.params.letter.toUpperCase();
+    const stem =  props.match.params.word.toUpperCase();
+    const word = stem + letter;
     const [value, dispatch] = useReducer(reducer, {value: '', values: [], showResults: false })
     const [anagrams, searchAnagram] = useAnagramProvider();
     const [showWords, setShowWords] = useState(false);
@@ -118,6 +123,12 @@ export const Stems = (props: StemProps) => {
     const onCheckWords = () => {
       dispatch({action: "UpdateValues"});
       dispatch({action: "ShowResults"});
+    }
+
+    const onClickInput = () => {
+      if (value.showResults) {
+        dispatch({action: "ShowResults"});     
+      }
     }
 
 
@@ -151,7 +162,7 @@ export const Stems = (props: StemProps) => {
             </div>            
     : <>  
     <Word  letters={word.toUpperCase().split('').map(x => x as ScrabbleLetter)} highlight={'none'} />
-      <FormControl className = {classes.formControl} component="form" onSubmit={onFormSubmit}>
+      <FormControl className = {classes.formControl} component="form" onSubmit={onFormSubmit} onClick={onClickInput}>
             <InputLabel htmlFor="input-word-check" >Word</InputLabel>
             <Input        
             id="input-word"
@@ -172,21 +183,15 @@ export const Stems = (props: StemProps) => {
             <Word  letters={l.split('').map(x => x as ScrabbleLetter)} highlight='none' size="Small" />
           </div>)} 
           </div>
-          <div className={classes.controls} >
-          {!value.showResults
-            ?
-            <Button variant="outlined" color="primary" onClick={() => onCheckWords()} startIcon={<DoneAllIcon />}>
-              Check
-            </Button>
-            :
-            <Button variant="outlined" color="primary" onClick={() =>dispatch({action: "HideResults"})} startIcon={<DoneAllIcon />}>
-              Try Again
-            </Button>
-
-          }
+          <div className={classes.controls} >          
+            <IconButton className={classes.button}  onClick={() => onCheckWords()} >
+            <DoneAllIcon />
+          </IconButton>
         </div>
+          <LetterPagination onClick={(l) => { history.push(Routes.Stem(stem, l))}} letter = {letter as ScrabbleLetter} includeSpace={true} />
+       
           {value.showResults && 
-        <div className={`Results`}>
+        <div className={classes.results}>
           {(numberIncorrect() > 0 || numberCorrect() < totalCorrectWords) &&
             <Fade in={true}>
               <Alert variant="standard" severity="info">
@@ -211,12 +216,12 @@ export const Stems = (props: StemProps) => {
           }
 
         </div>} </>
-    }
+    }         
           </>
 
 
     const contents = () => {
-      return totalCorrectWords > 0 ? content : <></>
+      return totalCorrectWords > 0 ? content : <><LetterPagination onClick={(l) => { history.push(Routes.Stem(stem, l))}} letter = {letter as ScrabbleLetter} includeSpace={true} /></>
     }
 
     return (

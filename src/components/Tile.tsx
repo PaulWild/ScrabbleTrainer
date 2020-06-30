@@ -43,7 +43,7 @@ interface TileProps {
 }
 
 const Tile = ({letter, selected, size = "Medium", className = ""}: TileProps) => {
-    return <div className={`Tile ${selected ? "Selected" : "UnSelected"} ${size} ${className}`}>{ letter === "_" ? " " : letter}<div className="Points">{lookup[letter]}</div> </div>
+    return <div className={`Tile ${selected ? "Selected" : "UnSelected"} ${size} ${className}`}>{ letter === "_" ? " " : letter}<div className="Points">{lookup[letter]}</div> </div>
 }
 
 export default memo(Tile)

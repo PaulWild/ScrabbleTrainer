@@ -43,7 +43,7 @@ class RoutePaths  {
   WordCheck = `${this.Reference}/WordCheck`;
   WordList = `${this.Reference}/WordList`;
   StemList = `${this.Training}/bingostems`;
-  Stem = (word: string) => `${this.StemList}/${word}`;
+  Stem = (word: string, letter: string) => `${this.StemList}/${word}/${letter}`;
   TwoLetterWords = (letter: ScrabbleLetter) => `${this.Training}/2LetterWords/${letter}`;
   ThreeLetterWords = (letter: ScrabbleLetter) => `${this.Training}/3LetterWords/${letter}`;
 
@@ -67,7 +67,7 @@ function App() {
                       <Switch> 
                         <Route path="/Training/2LetterWords/:letter([A-Z]{1})" render={(props) => <WordBoard numberOfLetters={2} {...props}></WordBoard>} />
                         <Route path="/Training/3LetterWords/:letter([A-Z]{1})" render={(props) => <WordBoard numberOfLetters={3} {...props}></WordBoard>} />  
-                        <Route path="/Training/bingostems/:word([A-Z,_]{1,})" render={(props) => <Stems {...props}></Stems>} />  
+                        <Route path="/Training/bingostems/:word([A-Z]{1,})/:letter([A-Z,_]{1})" render={(props) => <Stems {...props}></Stems>} />  
                         <Route path={Routes.Anagram} component={Anagram} /> 
                         <Route path={Routes.WordCheck} component={WordCheck} /> 
                         <Route path={Routes.WordList} component={WordList} /> 

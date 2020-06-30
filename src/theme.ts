@@ -53,16 +53,6 @@ const theme = {
       placeholder: grey[200],
     },
   },
-  props: {
-    ...rawTheme.props,
-    MuiButton: {
-      ...rawTheme.props?.MuiButton,
-      style: {
-        ...rawTheme.props?.MuiButton?.style,    
-        "margin": "1em"
-      },
-    },
-  },
   typography: {
     ...rawTheme.typography,
     fontHeader,

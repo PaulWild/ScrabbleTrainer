@@ -1,16 +1,16 @@
 import { ScrabbleLetter } from '../components/Tile';
 import React, { useEffect, useState } from 'react';
 import Word from '../components/Word';
-import { Button, makeStyles, Fade } from '@material-ui/core';
+import { makeStyles, Fade, IconButton } from '@material-ui/core';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, useHistory } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { useWordList } from '../contextProviders/dictionaryProvider';
-import { allLetters } from '../App';
+import { allLetters, Routes } from '../App';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import LoadingBackdrop from '../components/loadingBackdrop';
 import ScrabbleCard from '../components/scrabbleCard';
-
+import LetterPagination from '../components/letterPagination';
 interface WordBoardProps extends RouteComponentProps<IMatchParams> {
   numberOfLetters: number
 }
@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row-reverse',
 
   },
+  results: {
+    marginTop: '1.5em'
+  },
   words: {
     cursor: "pointer"
   },
@@ -38,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     display: "flex",
     justifyContent: "left",
+    marginBottom: "1.5em"
+  },
+  button: {
+    position: "fixed"
   }
 }));
 
@@ -45,11 +52,13 @@ const useStyles = makeStyles((theme) => ({
 
 const WordBoard = (props: WordBoardProps) => {
 
+  const history = useHistory();
   const firstLetter = props.match.params.letter.toUpperCase(); //regex doesn't seem to work
   const [letters, setLetters] = useState<Set<string>>(new Set(firstLetter))
   const [selectedWords, setSelectedWords] = useState<Set<string>>(new Set<string>())
   const [showResults, setShowResults] = useState<boolean>(false);
   const validWords = useWordList(firstLetter, props.numberOfLetters)
+  const paginationAction = props.numberOfLetters === 2  ? ((l: string) => history.push(Routes.TwoLetterWords(l as ScrabbleLetter))) : ((l: string) => history.push(Routes.ThreeLetterWords(l as ScrabbleLetter)))
 
   useEffect(() => { 
   
@@ -94,7 +103,7 @@ const WordBoard = (props: WordBoardProps) => {
   const wording = () => {
     const numberOfWords = totelCorrectWords();
     if (numberOfWords === 1) {
-      return (<>Find the {totelCorrectWords()} word that begin with the letter {firstLetter}</>)
+      return (<>Find the word that begins with the letter {firstLetter}</>)
     }
     if (numberOfWords === 0) {
       return (<>There are no {props.numberOfLetters} letter {firstLetter} words!</>)
@@ -129,20 +138,14 @@ const WordBoard = (props: WordBoardProps) => {
           </div>)}           
         </div>
         <div className={classes.controls} >
-          {!showResults
-            ?
-            <Button variant="outlined" color="primary" onClick={() => setShowResults(true)} startIcon={<DoneAllIcon />}>
-              Check
-            </Button>
-            :
-            <Button variant="outlined" color="primary" onClick={() => setShowResults(false)} startIcon={<DoneAllIcon />}>
-              Try Again
-            </Button>
-
-          }
+        <IconButton className={classes.button}  onClick={() => setShowResults(!showResults)} >
+            <DoneAllIcon />
+          </IconButton>
+         
         </div>
+        <LetterPagination onClick={paginationAction} letter={firstLetter as ScrabbleLetter} includeSpace={true} />
         {showResults && 
-        <div className={`Results`}>
+        <div className={classes.results}>
           {(numberIncorrect() > 0 || numberCorrect() < totelCorrectWords()) &&
             <Fade in={true}>
               <Alert variant="standard" severity="info">
@@ -160,7 +163,7 @@ const WordBoard = (props: WordBoardProps) => {
           {(numberIncorrect() === 0 && numberCorrect() === totelCorrectWords()) &&
             <Fade in={true}>
               <Alert variant="standard" severity="success">
-                <AlertTitle> All <strong>{numberCorrect()}</strong>  word{numberCorrect() === 1 ? "" : "s"} found!</AlertTitle>
+                <AlertTitle> Correct!</AlertTitle>
                    
                 </Alert>
             </Fade>
