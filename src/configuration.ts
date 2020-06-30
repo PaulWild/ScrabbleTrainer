@@ -6,7 +6,7 @@ let Configuration: ApplicatonConfiguration
 
 if (process.env.NODE_ENV === "production"){
     Configuration = {
-        ApiHost: "https://scrabble.paulwild.dev"
+        ApiHost: ""
     }
 } else {
     Configuration = {
