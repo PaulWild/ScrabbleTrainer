@@ -60,10 +60,16 @@ interface State {
   showResults: boolean
 }
 
-type Actions = {action: "SetValue", value: string} | { action: "UpdateValues" } | { action: "ShowResults"} | { action: "HideResults"}
+type Actions = {action: "SetValue", value: string} | { action: "UpdateValues" } | { action: "ShowResults"} | { action: "Reset"} 
 
 const reducer = (state: State, action: Actions): State => {
   switch (action.action) {
+    case 'Reset': 
+      return {
+        value: '',
+        values: [],
+        showResults: false
+      } 
     case 'SetValue':
       return {
         ...state,
@@ -111,7 +117,11 @@ export const Stems = (props: StemProps) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       dispatch({action: "SetValue", value: event.target.value});
     };
-
+    
+    useEffect(() => {
+      dispatch({action: "Reset"})
+    
+    }, [props])
 
     const onFormSubmit = (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       event.preventDefault();
