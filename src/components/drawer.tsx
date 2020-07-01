@@ -70,11 +70,13 @@ export const SideDrawer: FunctionComponent =  ({ children }) => {
   <>
   <Drawer
     className={classes.drawer}
+    ModalProps= {{style: {zIndex: 1199}}}
     variant={width && location.pathname !== "/" ? "permanent" : "temporary"}
     anchor={width ? "left" : location.pathname  === "/" && width ? "left" : "top"}
     classes={{ paper: classes.drawerPaper }}
     open={!open}
     onClick={maybeToggleOpen}
+    
   >
     <Toolbar />
     <div className={classes.drawerContainer}>
