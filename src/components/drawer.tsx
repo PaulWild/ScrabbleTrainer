@@ -70,11 +70,13 @@ export const SideDrawer: FunctionComponent =  ({ children }) => {
   <>
   <Drawer
     className={classes.drawer}
+    ModalProps= {{style: {zIndex: 1199}}}
     variant={width && location.pathname !== "/" ? "permanent" : "temporary"}
     anchor={width ? "left" : location.pathname  === "/" && width ? "left" : "top"}
     classes={{ paper: classes.drawerPaper }}
     open={!open}
     onClick={maybeToggleOpen}
+    
   >
     <Toolbar />
     <div className={classes.drawerContainer}>
@@ -95,14 +97,14 @@ export const SideDrawer: FunctionComponent =  ({ children }) => {
         {itemOpen ? <ExpandLess className={classes.listFoo} /> : <ExpandMore className={classes.listFoo} />}
       </ListItem>
       <Collapse in={itemOpen} timeout="auto" unmountOnExit>
-        <LetterGrid onClick={(l) => () => history.push(Routes.TwoLetterWords(l))} size="Small" />
+        <LetterGrid onClick={(l) => () => history.push(Routes.SmallWordsTraining(l, 2))} size="Small" />
       </Collapse>
       <ListItem button onClick={(e) => childNavEvent(e, () => setItemOpen2(!itemOpen2))}>
         <ListItemText secondary="3-Letter Words" color="textSecondary" />
         {itemOpen2 ? <ExpandLess className={classes.listFoo} /> : <ExpandMore className={classes.listFoo} />}
       </ListItem>
       <Collapse in={itemOpen2} timeout="auto" unmountOnExit>
-        <LetterGrid onClick={(l) => () => history.push(Routes.ThreeLetterWords(l))} size="Small" />
+        <LetterGrid onClick={(l) => () => history.push(Routes.SmallWordsTraining(l, 3))} size="Small" />
       </Collapse>
       <ListItem className={classes.clickable} onClick={() => history.push(Routes.StemList)}>
           <ListItemText secondary={"Bingo Stems"}> </ListItemText>
