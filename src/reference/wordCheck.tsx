@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react'
-import { FormControl, InputLabel, Input, InputAdornment, Button, IconButton, makeStyles, Fade } from '@material-ui/core'
+import { FormControl, InputLabel, Input, InputAdornment, IconButton, makeStyles, Fade } from '@material-ui/core'
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import Word from '../components/Word';
 import { ScrabbleLetter } from '../components/Tile';
