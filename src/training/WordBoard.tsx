@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Word from '../components/Word';
 import { makeStyles, IconButton } from '@material-ui/core';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
-import { RouteComponentProps, useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useWordList } from '../contextProviders/dictionaryProvider';
 import { allLetters, Routes } from '../App';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
@@ -12,17 +12,14 @@ import ScrabbleCard from '../components/scrabbleCard';
 import LetterPagination from '../components/letterPagination';
 import Results from '../components/results';
 
-interface WordBoardProps extends RouteComponentProps<IMatchParams> {
-  numberOfLetters: number
-}
-
 interface IMatchParams {
   letter: ScrabbleLetter
+  numberOfLetters: string
 }
 
-const numberMap: { [key: number]: string } = {
-  2: "Two",
-  3: "Three"
+const numberMap: { [key: string]: string } = {
+  "2": "Two",
+  "3": "Three"
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -49,21 +46,23 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const WordBoard = (props: WordBoardProps) => {
+const WordBoard = ( ) => {
 
+  const params = useParams<IMatchParams>();
+  
   const history = useHistory();
-  const firstLetter = props.match.params.letter.toUpperCase(); //regex doesn't seem to work
+  const firstLetter = params.letter.toUpperCase(); //regex doesn't seem to work
   const [letters, setLetters] = useState<Set<string>>(new Set(firstLetter))
   const [selectedWords, setSelectedWords] = useState<Set<string>>(new Set<string>())
   const [showResults, setShowResults] = useState<boolean>(false);
-  const validWords = useWordList(firstLetter, props.numberOfLetters)
-  const paginationAction = props.numberOfLetters === 2  ? ((l: string) => history.push(Routes.TwoLetterWords(l as ScrabbleLetter))) : ((l: string) => history.push(Routes.ThreeLetterWords(l as ScrabbleLetter)))
+  const validWords = useWordList(firstLetter, Number(params.numberOfLetters))
+  const paginationAction = (l: string) => history.push(Routes.SmallWordsTraining(l as ScrabbleLetter, Number(params.numberOfLetters)))
 
   useEffect(() => { 
   
     if (validWords.state === "Loaded") {
     let l = [[firstLetter as ScrabbleLetter]]
-    for (let i = 1; i < props.numberOfLetters; i++) {
+    for (let i = 1; i < Number(params.numberOfLetters); i++) {
       l = l.flatMap(x => allLetters.map(y => [...x, y]))
     }
 
@@ -92,7 +91,7 @@ const WordBoard = (props: WordBoardProps) => {
     setSelectedWords(new Set());
     setShowResults(false);
   }
-  }, [firstLetter, props.numberOfLetters, validWords])
+  }, [firstLetter, params.numberOfLetters, validWords])
 
   const numberCorrect = [...selectedWords].filter(x => (validWords.state === "Loaded") ? validWords.result.has(x) : false).length
   const numberIncorrect = [...selectedWords].filter(x => (validWords.state === "Loaded") ? !validWords.result.has(x) : false).length
@@ -105,7 +104,7 @@ const WordBoard = (props: WordBoardProps) => {
       return (<>Find the word that begins with the letter {firstLetter}</>)
     }
     if (numberOfWords === 0) {
-      return (<>There are no {props.numberOfLetters} letter {firstLetter} words!</>)
+      return (<>There are no {params.numberOfLetters} letter {firstLetter} words!</>)
     }
     return <>Find {totalCorrect} words that begin with the letter {firstLetter}</>
 
@@ -128,7 +127,7 @@ const WordBoard = (props: WordBoardProps) => {
     
 
     const avatar = <FitnessCenterIcon />
-    const title = `${numberMap[props.numberOfLetters]} letter words`
+    const title = `${numberMap[params.numberOfLetters]} letter words`
     const content = <>
        <div className= {classes.board}>
           {[...letters].sort().map((l, idx) => 
@@ -154,3 +153,4 @@ const WordBoard = (props: WordBoardProps) => {
 }
 
 export default WordBoard
+

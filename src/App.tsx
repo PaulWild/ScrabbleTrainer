@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, ComponentType } from 'react';
 import WordBoard from './training/WordBoard';
 import {
-  BrowserRouter as Router,
+  Router,
   Switch,
-  Route
+  Route,
+  RouteProps
 } from "react-router-dom";
 import  { ScrabbleLetter } from './components/Tile';
 import Header from './components/Header';
@@ -21,6 +22,8 @@ import Rereference from './reference/Reference';
 import { WordList } from './reference/wordLists';
 import { Stems } from './training/Stems/Stem';
 import StemList from './training/Stems/StemList';
+import { Auth0Provider, useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+import { createBrowserHistory } from 'history';
 
 export const allLetters: ScrabbleLetter[] = [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
@@ -43,45 +46,69 @@ class RoutePaths  {
   WordCheck = `${this.Reference}/WordCheck`;
   WordList = `${this.Reference}/WordList`;
   StemList = `${this.Training}/bingostems`;
+  Login = "/login"
   Stem = (word: string, letter: string) => `${this.StemList}/${word}/${letter}`;
-  TwoLetterWords = (letter: ScrabbleLetter) => `${this.Training}/2LetterWords/${letter}`;
-  ThreeLetterWords = (letter: ScrabbleLetter) => `${this.Training}/3LetterWords/${letter}`;
-
+  SmallWordsTraining = (letter: ScrabbleLetter, numberOfLetters: number) => `${this.Training}/${numberOfLetters}LetterWords/${letter}`;
 }
+
+interface loginProps {
+  url: string
+}
+
+const onRedirectCallback = (appState: any) => {
+  // Use the router's history module to replace the url
+  console.table(appState)
+  history.replace(appState?.returnTo || window.location.pathname);
+};
+
+
 export const Routes = new RoutePaths()
+
+const ProtectedRoute = ({ component, ...args }: RouteProps) => {
+  return <Route component={withAuthenticationRequired(component as ComponentType<any>)} {...args} />
+};
+
+export const history = createBrowserHistory();
 
 function App() {
   const classes = useStyles();
 
   return (
     <>
-    <Router>
-      <SettingsProvider>
-        <ThemeProvider theme={theme}>
-          <NavControlProvder>
-            <div className={classes.root}>
-            <Header />
-            <SideDrawer />
-              <main className={classes.content}>
-                <Toolbar />
-                      <Switch> 
-                        <Route path="/Training/2LetterWords/:letter([A-Z]{1})" render={(props) => <WordBoard numberOfLetters={2} {...props}></WordBoard>} />
-                        <Route path="/Training/3LetterWords/:letter([A-Z]{1})" render={(props) => <WordBoard numberOfLetters={3} {...props}></WordBoard>} />  
-                        <Route path="/Training/bingostems/:word([A-Z]{1,})/:letter([A-Z,_]{1})" render={(props) => <Stems {...props}></Stems>} />  
-                        <Route path={Routes.Anagram} component={Anagram} /> 
-                        <Route path={Routes.WordCheck} component={WordCheck} /> 
-                        <Route path={Routes.WordList} component={WordList} /> 
-                        <Route path={Routes.Reference} component={Rereference} /> 
-                        <Route path={Routes.StemList} component={StemList} />
-                        <Route path={Routes.Training} component={Training} />
-                        <Route path={Routes.Settings} component={Settings} />
-                        <Route path="/"  component={Home} />
-                    </Switch>
-            </main>  
-            </div>
-          </NavControlProvder>
-        </ThemeProvider>
-      </SettingsProvider>
+    <Router history={history}>
+      <Auth0Provider
+      domain="dev-27tyxhab.eu.auth0.com"
+      clientId="y2XbuFg12IbbEcroXB4NAUjO03EuXN4M"
+      redirectUri={window.location.origin}
+      onRedirectCallback={onRedirectCallback}
+    >
+        <SettingsProvider>
+          <ThemeProvider theme={theme}>
+            <NavControlProvder>
+              <div className={classes.root}>
+              <Header />
+              <SideDrawer />
+                <main className={classes.content}>
+                  <Toolbar />
+                        <Switch> 
+
+                          <Route path={Routes.Anagram} component={Anagram} /> 
+                          <Route path={Routes.WordCheck} component={WordCheck} /> 
+                          <Route path={Routes.WordList} component={WordList} /> 
+                          <Route path={Routes.Reference} component={Rereference} /> 
+                          <ProtectedRoute path="/Training/:numberOfLetters([1,2])LetterWords/:letter([A-Z]{1})"component={WordBoard} />
+                          <ProtectedRoute path="/Training/bingostems/:word([A-Z]{1,})/:letter([A-Z,_]{1})" component={Stems} />  
+                          <ProtectedRoute path={Routes.StemList} component={StemList} />
+                          <ProtectedRoute path={Routes.Training} component={Training} />
+                          <Route path={Routes.Settings} component={Settings} />
+                          <Route path="/"  component={Home} />
+                      </Switch>
+              </main>  
+              </div>
+            </NavControlProvder>
+          </ThemeProvider>
+        </SettingsProvider>
+      </Auth0Provider>
     </Router>
     </>
   );

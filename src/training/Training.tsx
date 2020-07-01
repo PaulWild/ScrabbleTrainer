@@ -28,11 +28,11 @@ export const Training = () => {
       <ScrabbleCard className={classes.item} title={"Two Letter Words"}
       subheader={"Test your knowledge of valid two letter words"}
       avatar = {<Typography variant='h4' component='h5' color='inherit'>2</Typography>}
-      content = {<LetterGrid onClick={(l) => () => history.push(Routes.TwoLetterWords(l))} />}/>
+      content = {<LetterGrid onClick={(l) => () => history.push(Routes.SmallWordsTraining(l, 2))} />}/>
             <ScrabbleCard title={"Three Letter Words"} className={classes.item}
       subheader={"Test your knowledge of valid three letter words"}
       avatar = {<Typography variant='h4' component='h5' color='inherit'>3</Typography>}
-    content = {<LetterGrid onClick={(l) => () => history.push(Routes.ThreeLetterWords(l))} />}  />
+    content = {<LetterGrid onClick={(l) => () => history.push(Routes.SmallWordsTraining(l, 3))} />}  />
       <ScrabbleCard className={classes.item} title={"Bingo Stems"}
       subheader={"Test your bingo stem skills"}
       avatar = {<Typography variant='h4' component='h5' color='inherit'>S</Typography>}
