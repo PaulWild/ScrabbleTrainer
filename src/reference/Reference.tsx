@@ -8,11 +8,16 @@ import ScrabbleCard from '../components/scrabbleCard';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(15em, 1fr));",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "left",
+        flexWrap: "wrap",
+        margin: 0
+      },
+      item: {
+        flexBasis: "25em"
       }
-    })
-)
+      }))
 
 const Rereference = () => {
     const classes = useStyles();
@@ -20,7 +25,7 @@ const Rereference = () => {
 
     return( 
         <Container className={classes.root}>
-            <ScrabbleCard title={"Anagrams"}
+            <ScrabbleCard className={classes.item} title={"Anagrams"}
             subheader={"Search for anagrams. "}
             avatar = {<ImportContactsIcon />}
             action = {
@@ -28,7 +33,7 @@ const Rereference = () => {
                 <ArrowForwardIcon />
                 </IconButton>
             }/>
-            <ScrabbleCard             title={"Word Check"}
+            <ScrabbleCard className={classes.item}            title={"Word Check"}
             subheader={"Check legality of multiple words"}
             action = {
                 <IconButton aria-label="settings" onClick={() => history.push(Routes.WordCheck)}>
@@ -36,7 +41,7 @@ const Rereference = () => {
                 </IconButton>           
             }
             avatar = {<ImportContactsIcon />}/>
-            <ScrabbleCard             title={"Word Lists"}
+            <ScrabbleCard className={classes.item}            title={"Word Lists"}
             subheader={"Useful word lists"}
             action = {
                 <IconButton aria-label="settings" onClick={() => history.push(Routes.Reference)}>

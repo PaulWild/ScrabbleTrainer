@@ -1,23 +1,23 @@
 import React, { useReducer } from 'react'
-import {  Avatar,  FormControl, InputLabel, Input, InputAdornment, Button, IconButton, makeStyles } from '@material-ui/core'
+import { FormControl, InputLabel, Input, InputAdornment, Button, IconButton, makeStyles, Fade } from '@material-ui/core'
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import Word from '../components/Word';
 import { ScrabbleLetter } from '../components/Tile';
 import { useWordCheck } from '../contextProviders/dictionaryProvider';
 import AddIcon from '@material-ui/icons/Add';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
-import CheckIcon from '@material-ui/icons/Check';
-import CloseIcon from '@material-ui/icons/Close';
 import ScrabbleCard from '../components/scrabbleCard';
 import LoadingBackdrop from '../components/loadingBackdrop';
+import RefreshIcon from '@material-ui/icons/Refresh';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
-    resultFoo: {
-      marginTop: '1em',
-      display: 'flex',
-      flexFlow: 'row wrap',  
-      justifyContent: 'center'
-    },
+  words: {
+    justifyContent: 'left',
+    display: 'flex',
+    flexFlow: 'row wrap',     
+    marginBottom: '1.5em'
+  },
     word: {
       marginTop: '0.5em'
     },
@@ -32,6 +32,12 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
       minWidth: 120,
+    },
+    button: {
+      marginTop: "1em"
+    },
+    checkButton: {
+      float: "right"
     }
   }));
 
@@ -42,7 +48,11 @@ interface State {
   checkedValues: string[],
 }
 
-type Actions = {action: "SetValue", value: string} | { action: "UpdateValues" } | { action: "UpdateValueList"}
+type Actions = {action: "SetValue", value: string} | { action: "UpdateValues" } | { action: "UpdateValueList"} | { action: "Reset"}
+
+const initialState =
+  {value: '', values: [], checkedValues: [] }
+
 
 const reducer = (state: State, action: Actions): State => {
   switch (action.action) {
@@ -51,11 +61,13 @@ const reducer = (state: State, action: Actions): State => {
         ...state,
         value: action.value,
       }
+    case 'Reset':
+      return initialState
     case 'UpdateValues':
       return {
         ...state,
         value: '',
-        values: state.values.concat([state.value.toUpperCase()])
+        values: state.value === "" ? state.values : state.values.concat([state.value.toUpperCase()])
       }
     case 'UpdateValueList':
         return {
@@ -70,7 +82,7 @@ const reducer = (state: State, action: Actions): State => {
 export const WordCheck = () => {
     const classes = useStyles();
 
-    const [value, dispatch] = useReducer(reducer, {value: '', values: [], checkedValues: [] })
+    const [value, dispatch] = useReducer(reducer, initialState)
     const state = useWordCheck(value.checkedValues);
 
 
@@ -96,48 +108,55 @@ export const WordCheck = () => {
     const subHeader = "Check legality of multiple words";
     const avatar = <ImportContactsIcon />;
     const content = <>
-      <FormControl component="form" onSubmit={onFormSubmit}>
-            <InputLabel htmlFor="input-word-check" >Word</InputLabel>
-            <Input        
-            id="input-word"
-            onChange={handleChange}
-            value={value.value}
-            endAdornment={
-                <InputAdornment  position="end" className="Clickable">
-                                  <IconButton aria-label="settings"  onClick={onFormSubmit}>
-                <AddIcon color="secondary"/>
-                </IconButton>
-                </InputAdornment>
-            }
-            />
-        </FormControl>
-        <div>
-        {value.values.map((l, idx) => 
-          <div key={idx} className={classes.word}>
-            <Word  letters={l.split('').map(x => x as ScrabbleLetter)} highlight='none' />
-          </div>)} 
-          </div>
-            <div>
+
         {state.state === "Loaded" ? 
-        <div className={classes.resultFoo}> 
+        <>
             {state.result === true ? 
-            <Avatar aria-label="resources" className={classes.correct} >
-                <CheckIcon />
-            </Avatar>
- :              <Avatar aria-label="resources" className={classes.incorrect}>
- <CloseIcon />
-</Avatar>
+  <Fade in={true}>
+  <Alert variant="standard" severity="success">
+    <AlertTitle>Correct</AlertTitle>
+  </Alert>
+ </Fade>
+ :                        <Fade in={true}>
+ <Alert variant="standard" severity="error">
+   <AlertTitle>Incorrect</AlertTitle>
+ </Alert>
+</Fade>
 }
-        </div> 
-        : <Button variant="outlined" color="primary" onClick={onCheckWords} startIcon={<DoneAllIcon />}>
-              Check
-            </Button>    
+        </> 
+        : <>
+        <FormControl component="form" onSubmit={onFormSubmit}>
+        <InputLabel htmlFor="input-word-check" >Word</InputLabel>
+        <Input        
+        id="input-word"
+        onChange={handleChange}
+        value={value.value}
+        endAdornment={
+            <InputAdornment  position="end" className="Clickable">
+                              <IconButton aria-label="settings"  onClick={onFormSubmit}>
+            <AddIcon color="secondary"/>
+            </IconButton>
+            </InputAdornment>
+        }
+        />
+    </FormControl>
+    <div className={classes.words}>
+    {value.values.map((l, idx) => 
+      <div key={idx} className={classes.word}>
+        <Word  letters={l.split('').map(x => x as ScrabbleLetter)} highlight='none' />
+      </div>)} 
+      </div>
+        <div className= {classes.checkButton}>
+        <IconButton className={classes.button}  onClick={onCheckWords} >
+            <DoneAllIcon />
+          </IconButton>          </div>
+            </>
 }
-          </div>
+ 
           </>
 
     return (
     <>
-      <LoadingBackdrop loading = {state.state === "Loading"} child ={ <ScrabbleCard title={title} subheader={subHeader} avatar={avatar} content={content} /> } />
+      <LoadingBackdrop loading = {state.state === "Loading"} child ={ <ScrabbleCard title={title} subheader={subHeader} avatar={avatar} content={content} action={<IconButton onClick={() => dispatch({action: "Reset"})}><RefreshIcon /></IconButton>} /> } />
     </>)
 }

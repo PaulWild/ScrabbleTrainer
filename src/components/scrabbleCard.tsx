@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
     return (
         <>
-        <div className={classes.root}>
+        <div className={`${classes.root} ${props.className}`}>
             <Card className={classes.card}>
             <CardHeader {...extendedProps} classes = {{
               action: classes.action
