@@ -142,7 +142,7 @@ const WordBoard = (props: WordBoardProps) => {
           </IconButton>
          
         </div>
-        <LetterPagination onClick={paginationAction} letter={firstLetter as ScrabbleLetter} includeSpace={true} />
+        <LetterPagination onClick={paginationAction} letter={firstLetter as ScrabbleLetter} includeSpace={false} />
         <Results showResults={showResults} numberCorrectAnswers={totalCorrect}  correct={numberCorrect} incorrect={numberIncorrect} />
         </>
 
