@@ -1,4 +1,4 @@
-import React, { useEffect, ComponentType } from 'react';
+import React, { ComponentType } from 'react';
 import WordBoard from './training/WordBoard';
 import {
   Router,
@@ -22,7 +22,7 @@ import Rereference from './reference/Reference';
 import { WordList } from './reference/wordLists';
 import { Stems } from './training/Stems/Stem';
 import StemList from './training/Stems/StemList';
-import { Auth0Provider, useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+import { Auth0Provider, withAuthenticationRequired } from "@auth0/auth0-react";
 import { createBrowserHistory } from 'history';
 
 export const allLetters: ScrabbleLetter[] = [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
